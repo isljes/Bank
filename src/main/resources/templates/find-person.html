@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    <form th:action="@{/findPerson}" method="get">
+        <label for="name" th:text="Name"></label>
+        <input type="text" th:name="name" id="name">
+        <label for="surname" th:text="Surname"></label>
+        <input type="text" th:name="surname" id="surname">
+        <input type="submit" th:value="searh">
+    </form>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>BirthDate</th>
+            <th>Email</th>
+            <th>Block</th>
+            <th>Role</th>
+            <th>MoreInfo</th>
+        </tr>
+        <tr th:each="e:${searchResult}">
+            <td th:text="${e.id}"></td>
+            <td th:text="${e.name}"></td>
+            <td th:text="${e.surname}"></td>
+            <td th:text="${e.birthdate}"></td>
+            <td th:text="${e.userEntity.email}"></td>
+            <td>
+                <form th:action="@{/blockUser/{id}(id=${e.id})}" method="post">
+                    <button type="submit">Block</button>
+                </form>
+            </td>
+            <td></td>
+            <td>
+                <a th:href="@{/profile/{id}(id=${e.id})}">Click</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

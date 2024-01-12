@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome</title>
+</head>
+<body>
+
+<div sec:authorize="hasAuthority('VIEW_ALL_PROFILES')">
+        <form th:action="@{/findPerson}" method="get">
+            <input type="submit" th:value="persons"/>
+        </form>
+        <form th:action="@{/findCard}" method="get">
+            <input type="submit" th:value="cards"/>
+        </form>
+</div>
+<div align="center" sec:authorize="hasAuthority('ACCEPT_REQUEST')">
+    <table border="1">
+        <tr>
+            <th>CardNumber</th>
+            <th>Date</th>
+            <th>Username</th>
+            <th>Status</th>
+            <th>More Info</th>
+            <th>Accept</th>
+        </tr>
+
+        <tr th:each="cardEntity:${allCards}" th:unless="${cardEntity.status==T(com.example.bank.model.Status).ACTIVE}">
+            <td th:text="${cardEntity.cardNumber}"></td>
+            <td th:text="${cardEntity.date}">null</td>
+            <td th:text="${cardEntity.userEntity.email}">null</td>
+            <td th:text="${cardEntity.status}">null</td>
+            <td><a th:href="@{/profile/{id}(id=${cardEntity.userEntity.id})}">Click</a></td>
+            <td>
+                <form th:action="@{/activateCard/{id}(id=${cardEntity.id})}" method="post">
+                    <button type="submit">ACTIVATE</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div sec:authorize="hasAuthority('ISSUE_CARD')">
+    <form th:action="@{/addCard}" method="get">
+        <button type="submit" th:text="issue"></button>
+    </form>
+</div>
+
+<div sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')">
+    <form th:action="@{/profile}" method="get">
+        <button type="submit" th:text="profile"></button>
+    </form>
+</div>
+
+
+
+<p th:text="${userEntityUsername}"> Welcome</p>
+<br/>
+Your SessionID <p th:text="${sessionID}">null</p>
+<br/>
+<form th:action="@{/logout}" method="post">
+
+    <input type="submit" value="Log Out"/>
+</form>
+</body>
+</html>

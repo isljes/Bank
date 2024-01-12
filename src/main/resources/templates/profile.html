@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/login.css" type="text/css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/profile.js}"></script>
+    <title></title>
+</head>
+<body>
+<section class="bg-light vh-100">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid my-4 ">
+            <a class="navbar-brand" th:href="@{/welcome}" th:utext="#{navbar.brand}"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-4 mb-lg-0">
+                    <li class="nav-item dropdown ms-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                           th:utext="#{navbar.card}">
+                            Card
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <div sec:authorize="hasAuthority('ISSUE_CARD')">
+                                <a class="dropdown-item" th:href="@{/addCard}" th:utext="#{navbar.card.issue-card}">Issue
+                                    Card</a>
+                            </div>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="#">Another action</a>
+
+                        </div>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" href="#">Remittance</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center ">
+                <button type="button"
+                        class="btn btn-secondary rounded-circle bg-dark border-0 shadow-none me-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                         class="bi bi-bell" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path>
+                    </svg>
+                    <span class="badge rounded-pill badge-notification bg-danger">2</span>
+                </button>
+                <div class="dropdown">
+                    <button type="button"
+                            id="dropdownMenuButton"
+                            class=" btn btn-secondary rounded-circle bg-grey border-0 shadow-none "
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="52" fill="currentColor"
+                             class="bi bi-person" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                         aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <hr class="dropdown-divider">
+                        <div class="d-flex justify-content-end me-2">
+                            <button class="btn dropdown-btn  btn-danger " th:href="@{/logout}" th:method="post"
+                                    th:utext="#{logout}">
+                                Log out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-5 py-4 " th:object="${profile}">
+
+
+        <div class="row">
+                <div id="emailAlert" class="alert alert-info alert-dismissible" role="alert">
+                    <div  th:utext="#{profile.avatar.alert.confirm.email}" id="selectedAssetsDetails">asddas </div>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+        </div>
+
+        <div class="row">
+            <!--Avatar-->
+            <div class="col-md-4 pt-4">
+                <div class="card bg-dark mb-4" style="border-radius: 1rem">
+                    <div class="card-body text-center">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                             alt="avatar"
+                             class="rounded-circle img-fluid">
+                        <h5 class="my-3 text-white" th:text="*{userEntity.email}">example@gmail.com</h5>
+                        <form id="form-confirm-email" th:action="@{/confirm-email}" method="post">
+                            <div sec:authorize="hasAuthority('CONFIRM_EMAIL')" >
+                                <button id="btn-confirm-email" class="btn btn-outline-warning btn-shadow-none" type="submit"
+                                        th:utext="#{profile.avatar.button.confirm.email}">
+                                    Confirm email
+                                </button>
+                                <h6 id="countdown-timer" class="text-white-50 mt-1"></h6>
+                            </div>
+                        </form>
+
+                        <div sec:authorize="!hasAuthority('CONFIRM_EMAIL')">
+                            <button class="btn btn-outline-success btn-shadow-none border-0"
+                                    th:utext="#{profile.avatar.button.confirmed.email}" disabled>
+                                Confirmed email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Form-->
+            <div class="col-md-8 pt-4">
+                <div class="card bg-dark mb-4" style="border-radius: 1rem">
+                    <div class="card-body text-white">
+                        <form id="personal-details-form" th:action="@{/profile}" method="post" >
+                            <div class="text-center mt-3 mb-5">
+                                <p class="text-bald"> Personal Details</p>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-3 col-form-label ps-4"
+                                       th:utext="#{profile.form.name}">Name :</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           th:field="*{name}"
+                                           class="form-control bg-dark text-white border-0 shadow-none"
+                                           id="inputName" disabled>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row mb-1 mt-4">
+                                <label for="inputSurname" class="col-sm-3 col-form-label ps-4"
+                                       th:utext="#{profile.form.surname}">Surname :</label>
+                                <div class="col-sm-9">
+                                    <input type="text"
+                                           th:field="*{surname}"
+                                           class="form-control bg-dark text-white border-0 shadow-none"
+                                           id="inputSurname"  disabled>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row mb-1 mt-3">
+                                <label for="inputBirthdate" class="col-sm-3 col-form-label ps-4"
+                                       th:utext="#{profile.form.birthdate}">Birthdate :</label>
+                                <div class="col-sm-9">
+                                    <input type="date"
+                                           th:field="*{{birthdate}}"
+                                           class="form-control bg-dark text-white border-0 shadow-none"
+                                           id="inputBirthdate"  disabled>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row mb-1 mt-3">
+                                <label for="inputAddress" class="col-sm-3 col-form-label ps-4"
+                                       th:utext="#{profile.form.address}">Address :</label>
+                                <div class="col-sm-9">
+                                    <input type="text"
+                                           th:field="*{address}"
+                                           class="form-control bg-dark text-white border-0 shadow-none"
+                                           id="inputAddress" disabled>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row mb-2 mt-3">
+                                <label for="inputPhoneNumber" class="col-sm-3 col-form-label ps-4"
+                                       th:utext="#{profile.form.phone-number}">Phone number
+                                    :</label>
+                                <div class="col-sm-9">
+                                    <input type="tel"
+                                           pattern=""
+                                           th:field="*{phoneNumber}"
+                                           class="form-control bg-dark text-white border-0 shadow-none"
+                                           id="inputPhoneNumber" disabled>
+                                </div>
+                                <input id="inputId" type="hidden" th:field="*{id}">
+                                <input id="inputUserEntity" type="hidden" th:field="*{userEntity}">
+                            </div>
+                            <hr>
+                            <div sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')">
+                                <div class="form-group row d-flex justify-content-end ">
+                                    <div class="col-sm-2 mx-3">
+                                        <button id="saveChangesButton" type="submit"
+                                                class="btn btn-outline-warning btn-lg "
+                                                th:utext="#{profile.form.button.save}" disabled>
+                                            Save
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-2 mx-3 ">
+                                        <button id="editButton" type="button"
+                                                class="btn btn-outline-success btn-lg"
+                                                th:utext="#{profile.form.button.edit}">Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Card Table-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card bg-dark" style="border-radius: 1rem">
+                    <div class="card-body">
+                        <table class="table table-dark table-hover ">
+                            <thead>
+                            <tr>
+                                <th th:utext="#{profile.card-table.head.id}">ID</th>
+                                <th th:utext="#{profile.card-table.head.card-number}">Card number</th>
+                                <th th:utext="#{profile.card-table.head.date}">Date</th>
+                                <th th:utext="#{profile.card-table.head.cvv}">CVV</th>
+                                <th th:utext="#{profile.card-table.head.status}">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Null</th>
+                                <th>Null</th>
+                                <th>Null</th>
+                                <th>Null</th>
+                                <th>Null</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--<div sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')" th:object="${profile}">
+        <p th:text="${profile.userEntity.email}"></p>
+        <p th:text="*{name}">
+        <p th:text="*{surname}"></p>
+        <p th:text="*{birthdate}"></p>
+    <table border="1">
+        <tr>
+            <th>CardNumber</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="card:${profile.userEntity.cardEntities}">
+            <td th:text="${card.cardNumber}"></td>
+            <td th:text="${card.date}"></td>
+            <td th:text="${card.status}"></td>
+        </tr>
+    </table>
+</div>-->
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+</body>
+</html>

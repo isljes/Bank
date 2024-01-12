@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    environment:
+      - REDIS_PASSWORD=alex230302
+
+
+  postgres:
+    container_name: db
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_DB=bank
+      - POSTGRES_PASSWORD=alex230302
+      - POSTGRES_USER=kenik
+
+    ports:
+      - '5432'
