@@ -6,15 +6,13 @@ $(function (){
         $('#emailAlert').hide()
     })
 
-
-
-
     //enable from onClick Edit button
     $('#editButton').click(function (){
-        $('form input[disabled]').removeAttr('disabled')
+        $('#personal-details-form input[disabled]').removeAttr('disabled')
         $('#saveChangesButton').removeAttr('disabled')
         $(this).attr('disabled','disabled')
     })
+
     //disable from onClick Save button and save changes
     $('#personal-details-form').submit(function (event){
         event.preventDefault()
@@ -23,7 +21,7 @@ $(function (){
             url:'http://localhost:8080/profile',
             data: formData
         }).done(function (){
-            $('form input:not([disabled])').attr('disabled','disabled')
+            $('#personal-details-form input:not([disabled],[name=_csrf])').attr('disabled','disabled')
             $('#saveChangesButton').attr('disabled','disabled')
             $('#editButton').removeAttr('disabled')
         })
