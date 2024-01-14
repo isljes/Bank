@@ -8,7 +8,9 @@ import com.example.bank.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,14 +68,14 @@ public class ProfileController {
     @PreAuthorize("hasAuthority('CONFIRM_EMAIL')")
     public String sendConfirmationCode(@ModelAttribute("profile") PersonalDetailsEntity personalDetails) {
         String email=personalDetails.getUserEntity().getEmail();
-        //mailSenderService.sendLinkToConfirmEmail(email);
+        mailSenderService.sendLinkToConfirmEmail(email);
         return "redirect:/profile";
     }
 
     @GetMapping("/confirm-email")
     @PreAuthorize("hasAuthority('CONFIRM_EMAIL')")
-    public String confirmEmail(@RequestParam String confirmationCode,
-                               @RequestParam String email,
+    public String confirmEmail(@RequestParam(name = "confirmation-code") String confirmationCode,
+                               @RequestParam(name = "email") String email,
                                Model model){
         boolean isConfirmed=userService.confirmEmail(email, confirmationCode);
 

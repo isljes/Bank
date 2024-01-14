@@ -27,9 +27,10 @@ public class MailSenderService {
         userService.updateUser(user);
 
         String messageText = String.format(
-                "Hello, %s!\n Please, visit next link: http://localhost:8080/confirm-email?confirmation-code=%s"
+                "Hello, %s!\n Please, visit next link: http://localhost:8080/confirm-email?confirmation-code=%s&email=%s"
                 , user.getEmail()
                 , user.getConfirmationCode()
+                , user.getEmail()
         );
         String subject="Confirm your Email";
         SimpleMailMessage message = createMailMessage(subject, messageText, user.getEmail());
@@ -44,15 +45,13 @@ public class MailSenderService {
 
         String messageText = String.format(
                 "Hello, %s!\n Please, visit next link to reset your password: " +
-                        "http://localhost:8080/forgot-password/reset-password?email=%s&confirm_code=%s"
+                        "http://localhost:8080/forgot-password/reset-password?email=%s&confirmation-code=%s"
                 ,user.getEmail()
                 ,user.getEmail()
                 ,user.getConfirmationCode()
         );
         String subject="Confirm your Email";
-
         SimpleMailMessage message = createMailMessage(subject, messageText, email);
-
         send(message);
     }
 
