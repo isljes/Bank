@@ -25,6 +25,7 @@ public class UserService {
     private final PersonalDetailsService personalDetailsService;
     private final String CONFIRM_CODE=UUID.randomUUID().toString();
     private final PasswordEncoder passwordEncoder;
+    private final SessionService sessionService;
 
     public List<UserEntity> findAll(){
         return userRepository.findAll();
@@ -81,6 +82,7 @@ public class UserService {
         if(equalsConfirmationCode){
             user.setRole(Role.USER);
             updateUser(user);
+            sessionService.updateUserRole(user.getEmail(),Role.USER);
             return true;
         }
 
