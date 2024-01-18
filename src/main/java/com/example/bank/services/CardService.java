@@ -43,7 +43,7 @@ public class CardService {
 
     public void deactivateCard(Long id) {
         CardEntity cardEntity = findById(id);
-        cardEntity.setStatus(Status.NOT_ACTIVE);
+        cardEntity.setStatus(Status.BANNED);
         cardRepository.save(cardEntity);
     }
 
@@ -53,7 +53,7 @@ public class CardService {
         card.setDate(new Date(new java.util.Date().getTime()));
         card.setCvv(String.valueOf(new Random().nextInt(999 - 100 + 1) + 100));
         card.setUserEntity(userService.findByEmail(email));
-        card.setStatus(Status.NOT_ACTIVE);
+        card.setStatus(Status.UNDER_CONSIDERATION);
 
         cardRepository.save(card);
         return card;
