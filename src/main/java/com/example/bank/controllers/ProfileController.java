@@ -42,10 +42,12 @@ public class ProfileController {
         cardService.createNewCard(userDetails.getUsername(), card);
         return "redirect:/welcome";
     }
+
     @ModelAttribute
     public void profilePage(Model model,@AuthenticationPrincipal UserDetails userDetails){
         UserEntity user= userService.findByEmail(userDetails.getUsername());
         model.addAttribute("profile", user.getPersonalDetailsEntity());
+        model.addAttribute("cards",user.getCardEntities());
     }
 
 
