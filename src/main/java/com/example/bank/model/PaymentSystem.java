@@ -1,5 +1,8 @@
 package com.example.bank.model;
 
+import lombok.Getter;
+
+@Getter
 public enum PaymentSystem {
     MIR("2"),
     AMERICAN_EXPRESS("3"),
@@ -7,10 +10,6 @@ public enum PaymentSystem {
     MASTERCARD("5"),
     MAESTRO("6");
     final String code;
-
-    public String getCode() {
-        return code;
-    }
 
     PaymentSystem(String code) {
         this.code = code;

@@ -40,4 +40,12 @@ public class CardEntity {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(name = "payment_system")
+    @Enumerated(EnumType.STRING)
+    private  PaymentSystem paymentSystem;
+
+    @Column(name = "card_type")
+    @Enumerated(EnumType.STRING)
+    private  CardType cardType;
 }

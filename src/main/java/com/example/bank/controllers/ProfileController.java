@@ -1,9 +1,6 @@
 package com.example.bank.controllers;
 
-import com.example.bank.model.PaymentSystem;
-import com.example.bank.model.PersonalDetailsEntity;
-import com.example.bank.model.Role;
-import com.example.bank.model.UserEntity;
+import com.example.bank.model.*;
 import com.example.bank.services.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +27,19 @@ public class ProfileController {
     private final SecurityService securityService;
 
 
-    @GetMapping("/addCard")
+    @GetMapping("/add-card")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
-    public String getCardPage() {
+    public String getCardPage(Model model) {
+        model.addAttribute("card",new CardEntity());
         return "card-issue";
     }
 
 
-    @PostMapping("/addCard")
+    @PostMapping("/add-card")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
     public String saveCard(@AuthenticationPrincipal UserDetails userDetails,
-                           @ModelAttribute("pay") PaymentSystem paymentSystem) {
-        cardService.createNewCard(userDetails.getUsername(), paymentSystem);
+                           @ModelAttribute CardEntity card) {
+        cardService.createNewCard(userDetails.getUsername(), card);
         return "redirect:/welcome";
     }
     @ModelAttribute

@@ -4,24 +4,74 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    <th:block th:insert="~{fragments/bootstrap::bootstrap-head}"/>
+    <title th:utext="#{card.issue}">Issue Card</title>
 </head>
 <body>
-<h1>Issue a Card</h1>
-<div>
-    <th:block>
-        <form th:action="@{/addCard}" method="post">
+<section class="vh-100 bg-light">
+    <th:block th:insert="~{fragments/navabar::navbar}"/>
+    <div class="container py-5" th:object="${card}">
+        <div class="row d-flex align-items-center justify-content-center mt-5">
+            <div class="col-8">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5">
+                        <form th:action="@{/add-card}" method="post">
+                            <div class="mb-md-3 mt-md-4 pb-5 text-center text-uppercase" th:utext="#{card.issue}">
+                                ISSUE CARD
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-md-5 mt-md-4 pb-5 text-start text-uppercase" th:utext="#{card.issue.1}">
+                                        1. CHANGE PAYMENT SYSTEM :
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-check text-dark p-0">
+                                        <div class="row">
+                                            <div class="col-md-4"
+                                                 th:each="paymentSystem:${T(com.example.bank.model.PaymentSystem).values}">
+                                                <div class="card mb-md-4 mt-md-2 p-1 h-75">
+                                                    <h6 class="text-uppercase" th:text="${paymentSystem}">Null</h6>
+                                                    <input class="form-check-input
+                                                        me-1 mb-1
+                                                        position-absolute end-0 bottom-0" type="radio"
+                                                           name="payment-system"
+                                                           th:value="${paymentSystem}"
+                                                           th:field="*{paymentSystem}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-            <input th:each="paymentSystem:${T(com.example.bank.model.PaymentSystem).values}"
-                   type="checkbox"
-                   th:value="${paymentSystem}"
-                   th:text="${paymentSystem}"
-                   name="pay">
-            <input type="submit">
-        </form>
-    </th:block>
-
-</div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-3 text-uppercase" th:utext="#{card.issue.2}">
+                                    2. CHANGE CARD TYPE :
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-check"
+                                         th:each="cardType:${T(com.example.bank.model.CardType).values}">
+                                        <input class="form-check-input" type="radio" id="debitRadio" name="typeCard"
+                                               th:field="*{cardType}" th:value="${cardType}">
+                                        <label class="form-check-label" for="debitRadio" th:text="${cardType}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12  d-flex justify-content-end">
+                                    <button class="btn btn-outline-success text-uppercase" type="submit"
+                                            th:utext="#{card.issue.submit}">ISSUE</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<th:block th:insert="~{fragments/bootstrap::bootstrap-scripts}"/>
 </body>
 </html>

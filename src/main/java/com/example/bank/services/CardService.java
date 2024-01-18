@@ -47,23 +47,19 @@ public class CardService {
         cardRepository.save(cardEntity);
     }
 
-    public CardEntity createNewCard(String email, PaymentSystem paymentSystem) {
+    public CardEntity createNewCard(String email, CardEntity card) {
+        String cardNumber=generateCardNumberBeforeLuhnAlgorithm(card.getPaymentSystem());
+        card.setCardNumber(luhnAlgorithmForGenerateLastDigit(cardNumber));
+        card.setDate(new Date(new java.util.Date().getTime()));
+        card.setCvv(String.valueOf(new Random().nextInt(999 - 100 + 1) + 100));
+        card.setUserEntity(userService.findByEmail(email));
+        card.setStatus(Status.NOT_ACTIVE);
 
-        String cardNumber=generateCardNumberBeforeLunhAlgorithm(paymentSystem);
-
-        CardEntity cardEntity = new CardEntity();
-
-        cardEntity.setCardNumber(luhnAlgorithmForGenerateLastDigit(cardNumber));
-        cardEntity.setDate(new Date(new java.util.Date().getTime()));
-        cardEntity.setCvv(String.valueOf(new Random().nextInt(999 - 100 + 1) + 100));
-        cardEntity.setUserEntity(userService.findByEmail(email));
-        cardEntity.setStatus(Status.NOT_ACTIVE);
-
-        cardRepository.save(cardEntity);
-        return cardEntity;
+        cardRepository.save(card);
+        return card;
     }
 
-    private String generateCardNumberBeforeLunhAlgorithm(PaymentSystem paymentSystem){
+    private String generateCardNumberBeforeLuhnAlgorithm(PaymentSystem paymentSystem){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(paymentSystem.getCode());
         stringBuilder.append(BIN);
