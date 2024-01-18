@@ -1,20 +1,24 @@
 package com.example.bank.controllers;
 
-import com.example.bank.model.*;
-import com.example.bank.services.*;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.bank.model.CardEntity;
+import com.example.bank.model.PersonalDetailsEntity;
+import com.example.bank.model.UserEntity;
+import com.example.bank.services.CardService;
+import com.example.bank.services.MailSenderService;
+import com.example.bank.services.PersonalDetailsService;
+import com.example.bank.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
-import java.util.UUID;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +28,6 @@ public class ProfileController {
     private final UserService userService;
     private final PersonalDetailsService personalDetailsService;
     private final MailSenderService mailSenderService;
-    private final SecurityService securityService;
 
 
     @GetMapping("/add-card")
@@ -38,9 +41,14 @@ public class ProfileController {
     @PostMapping("/add-card")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
     public String saveCard(@AuthenticationPrincipal UserDetails userDetails,
-                           @ModelAttribute CardEntity card) {
+                           @ModelAttribute("card")@Valid CardEntity card,
+                           BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "card-issue";
+        }
         cardService.createNewCard(userDetails.getUsername(), card);
         return "redirect:/welcome";
+
     }
 
     @ModelAttribute
