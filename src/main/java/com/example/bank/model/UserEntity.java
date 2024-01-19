@@ -1,9 +1,7 @@
 package com.example.bank.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
@@ -21,14 +19,14 @@ public class UserEntity {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank(message = "Email is required field")
-    @Size(min = 4,max = 60,message = "Size must be between 4 and 60 symbol")
-    @Email
+    @NotBlank(message = "{jakarta.validation.custom.message.user.email.NotBlank}")
+    @Size(max = 50,message = "{jakarta.validation.custom.message.user.email.Size}")
+    @Email(message = "{jakarta.validation.custom.message.user.email.Email}")
     @Column(name = "email")
     private String email;
 
-    @NotBlank(message = "Password is required field")
-    @Size(min = 7,message = "Password must be more than 7 symbol")
+    @NotBlank(message = "{jakarta.validation.custom.message.user.password.NotBlank}")
+    @Size(min = 7,message = "{jakarta.validation.custom.message.user.password.Size}")
     @Column(name = "password")
     private String password;
 

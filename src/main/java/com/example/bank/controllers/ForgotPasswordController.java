@@ -1,13 +1,10 @@
 package com.example.bank.controllers;
 
 import com.example.bank.model.UserEntity;
-import com.example.bank.services.CardService;
 import com.example.bank.services.MailSenderService;
-import com.example.bank.services.SecurityService;
 import com.example.bank.services.UserService;
 import com.example.bank.validation.ChangePasswordValidator;
 import com.example.bank.validation.ForgotPasswordValidator;
-import com.example.bank.validation.RegistrationValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -55,11 +52,11 @@ public class ForgotPasswordController {
 
     @GetMapping("forgot-password/reset-password")
     public String checkValidConfirmCode(@RequestParam(value = "email") String email,
-                                        @RequestParam(value = "confirm_code") String confirmCode,
+                                        @RequestParam(value = "confirmation-code") String confirmationCode,
                                         Model model){
         UserEntity user=userService.findByEmail(email);
 
-        if(!confirmCode.equals(user.getConfirmationCode())){
+        if(!confirmationCode.equals(user.getConfirmationCode())){
             model.addAttribute("response","Confirmation code is expired");
             return "response";
         }
@@ -69,12 +66,14 @@ public class ForgotPasswordController {
 
     @PostMapping("forgot-password/reset-password")
     public String resetPassword(@ModelAttribute("user") @Valid UserEntity userEntity,
-                                BindingResult bindingResult){
+                                BindingResult bindingResult,
+                                Model model){
         changePasswordValidator.validate(userEntity,bindingResult);
         if(bindingResult.hasErrors()){
             return "reset-password";
         }
         userService.changePassword(userEntity.getEmail(), userEntity.getPassword());
-        return "redirect:/login";
+        model.addAttribute("response","Password successful changed ");
+        return "response";
     }
 }

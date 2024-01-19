@@ -44,11 +44,11 @@ public class CardEntity {
 
     @Column(name = "payment_system")
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Payment system is not selected")
+    @NotNull(message = "{jakarta.validation.custom.message.card.payment-system.NotNull}")
     private  PaymentSystem paymentSystem;
 
     @Column(name = "card_type")
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Card type is not selected")
+    @NotNull(message = "{jakarta.validation.custom.message.card.card-type.NotNull}")
     private  CardType cardType;
 }

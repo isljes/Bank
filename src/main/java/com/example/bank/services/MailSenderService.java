@@ -3,6 +3,7 @@ package com.example.bank.services;
 import com.example.bank.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class MailSenderService {
 
     private final JavaMailSender mailSender;
     private final UserService userService;
+    private final MessageSource messageSource;
 
     @Value("${spring.mail.username}")
     private String username;

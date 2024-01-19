@@ -1,4 +1,5 @@
-<th:block xmlns:th="http//thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" th:fragment="navbar">
+<th:block xmlns:th="http//thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+          th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid my-4 ">
             <a class="navbar-brand" th:href="@{/welcome}" th:utext="#{navbar.brand}"></a>
@@ -28,7 +29,7 @@
                         </div>
                     </li>
                     <li class="nav-item ms-3">
-                        <a class="nav-link" href="#">Remittance</a>
+                        <a class="nav-link" th:utext="#{navbar.remittance}" href="#">Remittance</a>
                     </li>
                 </ul>
             </div>
@@ -56,12 +57,12 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
                          aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" th:href="@{/profile}" th:utext="#{navbar.profile}">Profile</a>
                         <hr class="dropdown-divider">
                         <div class="d-flex justify-content-end me-2">
                             <form th:action="@{/logout}" method="post">
                                 <button class="btn dropdown-btn  btn-danger "
-                                        th:utext="#{logout}" type="submit">
+                                        th:utext="#{navbar.profile.logout}" type="submit">
                                     Log out
                                 </button>
                             </form>

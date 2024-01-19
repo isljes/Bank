@@ -10,7 +10,7 @@
 <body>
 <section class="vh-100 bg-light">
     <th:block th:insert="~{fragments/navabar::navbar}"/>
-    <div class="container py-5" >
+    <div class="container py-5">
         <div class="row d-flex align-items-center justify-content-center mt-5">
             <div class="col-8">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
@@ -21,7 +21,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="mb-md-5 mt-md-4 pb-5 text-start text-uppercase" th:utext="#{card.issue.1}">
+                                    <div class="mb-md-5 mt-md-4 pb-5 text-start text-uppercase"
+                                         th:utext="#{card.issue.1}">
                                         1. CHANGE PAYMENT SYSTEM :
                                     </div>
                                 </div>
@@ -43,14 +44,14 @@
                                             <div class="text-danger mb-2">
                                                 <p>
                                                     <th:block th:if="${#fields.hasErrors()}">
-                                                        <div th:errorclass="invalid-input" th:errors="*{paymentSystem}"></div>
+                                                        <div th:errorclass="invalid-input"
+                                                             th:errors="*{paymentSystem}"></div>
                                                     </th:block>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <hr/>
                             <div class="row">
@@ -72,12 +73,12 @@
                                         </p>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="col-12  d-flex justify-content-end">
                                     <button class="btn btn-outline-success text-uppercase" type="submit"
-                                            th:utext="#{card.issue.submit}">ISSUE</button>
+                                            th:utext="#{card.issue.submit}">ISSUE
+                                    </button>
                                 </div>
                             </div>
                         </form>

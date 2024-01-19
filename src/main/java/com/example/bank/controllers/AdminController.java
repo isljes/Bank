@@ -5,7 +5,6 @@ import com.example.bank.model.Status;
 import com.example.bank.model.UserEntity;
 import com.example.bank.services.CardService;
 import com.example.bank.services.PersonalDetailsService;
-import com.example.bank.services.SecurityService;
 import com.example.bank.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
