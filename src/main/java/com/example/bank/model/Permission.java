@@ -6,6 +6,7 @@ public enum Permission {
     ALTER_ROLE,
     ISSUE_CARD,
     ACCEPT_REQUEST,
+    MONEY_TRANSFER,
     CONFIRM_EMAIL;
 
 

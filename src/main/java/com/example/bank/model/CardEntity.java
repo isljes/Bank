@@ -33,10 +33,6 @@ public class CardEntity {
     @Column(name = "cvv")
     private String cvv;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @ToString.Exclude
-    private UserEntity userEntity;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -51,4 +47,13 @@ public class CardEntity {
     @Enumerated(EnumType.STRING)
     @NotNull(message = "{jakarta.validation.custom.message.card.card-type.NotNull}")
     private  CardType cardType;
+
+    @Column(name = "balance")
+    private long balance;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private UserEntity userEntity;
+
 }

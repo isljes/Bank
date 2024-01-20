@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Role {
-    USER(Set.of(Permission.VIEW_ONLY_HIS_PROFILE,Permission.ISSUE_CARD)),
+    USER(Set.of(Permission.VIEW_ONLY_HIS_PROFILE,Permission.ISSUE_CARD,Permission.MONEY_TRANSFER)),
     ADMIN(Set.of(Permission.ACCEPT_REQUEST,Permission.VIEW_ALL_PROFILES,Permission.ALTER_ROLE)),
     UNCONFIRMED_USER(Set.of(Permission.CONFIRM_EMAIL,Permission.VIEW_ONLY_HIS_PROFILE));
 

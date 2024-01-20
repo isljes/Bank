@@ -2,7 +2,7 @@
           th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid my-4 ">
-            <a class="navbar-brand" th:href="@{/welcome}" th:utext="#{navbar.brand}"></a>
+            <a class="navbar-brand" th:href="@{/welcome}" th:utext="#{navbar.brand}" ></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
@@ -13,23 +13,24 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-4 mb-lg-0">
                     <li class="nav-item dropdown ms-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                           th:utext="#{navbar.card}">
+                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" th:utext="#{navbar.card}">
                             Card
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                            <div sec:authorize="hasAuthority('ISSUE_CARD')">
-                                <a class="dropdown-item" th:href="@{/add-card}" th:utext="#{navbar.card.issue-card}">Issue
-                                    Card</a>
-                            </div>
-                            <hr class="dropdown-divider">
-                            <a class="dropdown-item" href="#">Another action</a>
-
-                        </div>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li sec:authorize="hasAuthority('ISSUE_CARD')">
+                                <a class="dropdown-item" th:href="@{/add-card}" th:utext="#{navbar.card.issue-card}">Issue card</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item ms-3">
-                        <a class="nav-link" th:utext="#{navbar.remittance}" href="#">Remittance</a>
+                    <li class="nav-item dropdown ms-3" sec:authorize="hasAuthority('MONEY_TRANSFER')">
+                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" th:utext="#{navbar.transfers}">
+                            Transfer by
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" th:href="@{/transfer/by-card-number}" th:utext="#{navbar.transfers.card-number}">Card number</a></li>
+                            <li><a class="dropdown-item" th:href="@{/transfer/by-phone-number}" th:utext="#{navbar.transfers.phone-number}">Phone number</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -43,7 +44,7 @@
                     </svg>
                     <span class="badge rounded-pill badge-notification bg-danger">2</span>
                 </button>
-                <div class="dropdown">
+                <div class="dropdown dropdown-menu-start">
                     <button type="button"
                             id="dropdownMenuButton"
                             class=" btn btn-secondary rounded-circle bg-grey border-0 shadow-none "
@@ -55,19 +56,17 @@
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                         </svg>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
-                         aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" th:href="@{/profile}" th:utext="#{navbar.profile}">Profile</a>
-                        <hr class="dropdown-divider">
-                        <div class="d-flex justify-content-end me-2">
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" th:href="@{/profile}" th:utext="#{navbar.profile}">Profile</a></li>
+                        <li class="d-flex justify-content-end me-2 mt-4">
                             <form th:action="@{/logout}" method="post">
-                                <button class="btn dropdown-btn  btn-danger "
+                                <button class="btn dropdown-btn  btn-danger"
                                         th:utext="#{navbar.profile.logout}" type="submit">
                                     Log out
                                 </button>
                             </form>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
