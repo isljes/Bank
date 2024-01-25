@@ -90,7 +90,7 @@ public class CardService {
         return cardNumber;
     }
 
-    private boolean checkCorrectnessCardNumber(String cardNumber) {
+    public boolean checkCorrectnessCardNumber(String cardNumber) {
         int sum = 0;
         int nDigits = cardNumber.length();
         int parity = nDigits % 2;

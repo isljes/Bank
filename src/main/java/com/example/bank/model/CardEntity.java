@@ -2,12 +2,15 @@ package com.example.bank.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
@@ -16,12 +19,11 @@ import java.sql.Date;
 @Setter
 @NoArgsConstructor
 @ToString
-public class CardEntity {
-
+public class CardEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @Column(name = "card_number")
     private String cardNumber;

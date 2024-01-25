@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <th:block th:insert="~{fragments/bootstrap::bootstrap-head}"/>
+    <th:block th:insert="~{fragments/ajax::ajax}"/>
+    <script type="text/javascript" th:src="@{/js/transfer.js}"></script>
+    <link href="/css/autocomplete.css" type="text/css" rel="stylesheet"/>
+    <title th:utext="#{transfer.title}">Transfer</title>
+</head>
+<body>
+<section class="vh-100 bg-light">
+    <th:block th:insert="~{fragments/navabar::navbar}"/>
+    <div class="container py-5">
+        <div class="row" th:if="${alert}!=null">
+            <div id="alert" class="alert alert-warning alert-dismissible" role="alert">
+                <div th:utext="${alert}" id="selectedAssetsDetails">null</div>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center mt-5">
+            <div class="col-6">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <h3 class="text-white mb-4" th:utext="#{transfer.form.title}">Transfer</h3>
+                        </div>
+                        <form th:action="@{by-card-number}" method="post" th:object="${transferMoneyDTO}">
+                            <div class="form-floating mb-4">
+                                <div class="mb-3">
+                                    <h5><label for="card-number-input" class="form-label"
+                                               th:utext="#{transfer.form.label.card-number}">Enter card number</label>
+                                    </h5>
+                                    <input type="text" class="form-control bg-dark shadow-none text-white"
+                                           id="card-number-input" placeholder="1234 1234 1234 1234"
+                                           th:field="*{cardNumber}"
+                                           pattern="([0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4})|([0-9]{16})"/>
+                                </div>
+                                <div class="text-danger mb-2">
+                                    <p>
+                                        <th:block th:if="${#fields.hasErrors()}">
+                                            <div th:errorclass="invalid-input" th:errors="*{cardNumber}"></div>
+                                        </th:block>
+                                    </p>
+                                </div>
+                                <div class="mb-3">
+                                    <h5><label for="amount-input" class="form-label"
+                                               th:utext="#{transfer.form.label.amount}">Enter amount</label></h5>
+                                    <div class="input-group flex-nowrap">
+                                        <input id="amount-input" type="text"
+                                               class="form-control bg-dark shadow-none text-white"
+                                               th:field="*{amount}"/>
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                                <div class="text-danger mb-2">
+                                    <p>
+                                        <th:block th:if="${#fields.hasErrors()}">
+                                            <div th:errorclass="invalid-input" th:errors="*{amount}"></div>
+                                        </th:block>
+                                    </p>
+                                </div>
+                                <div class="mb-3">
+                                    <h5 th:utext="#{transfer.form.select.card}">Select card</h5>
+                                    <div class="input-group">
+                                        <select class="form-select bg-dark text-white" th:field="*{cardEntity}">
+                                            <option th:each="currcard:${selectCard}" th:value="${currcard.id}"
+                                                    th:utext="
+                                                ${currcard.paymentSystem+' '+currcard.cardNumber.substring(12)}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-danger mb-2">
+                                    <p>
+                                        <th:block th:if="${#fields.hasErrors()}">
+                                            <div th:errorclass="invalid-input" th:errors="*{cardEntity}"></div>
+                                        </th:block>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-end">
+                                <button class="btn btn-outline-success" type="submit"
+                                        th:utext="#{transfer.form.submit}">Transfer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<th:block th:insert="~{fragments/bootstrap::/bootstrap-scripts}"/>
+</body>
+</html>

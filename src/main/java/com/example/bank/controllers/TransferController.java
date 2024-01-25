@@ -1,27 +1,74 @@
 package com.example.bank.controllers;
 
+import com.example.bank.dto.TransferMoneyDTO;
+import com.example.bank.model.CardEntity;
+import com.example.bank.model.UserEntity;
+import com.example.bank.services.CardService;
+import com.example.bank.services.TransferMoneyService;
+import com.example.bank.services.UserService;
+import com.example.bank.validation.TransferMoneyValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/transfer")
 @RequiredArgsConstructor
 public class TransferController {
 
+    private final UserService userService;
+    private final CardService cardService;
+    private final TransferMoneyValidator transferMoneyValidator;
+    private final TransferMoneyService transferMoneyService;
+
+    @ModelAttribute
+    public void transferPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        UserEntity currentUser = userService.findByEmail(userDetails.getUsername());
+        model.addAttribute("transferMoneyDTO", new TransferMoneyDTO());
+        model.addAttribute("selectCard", currentUser.getCardEntities());
+    }
+
 
     @GetMapping("/by-card-number")
-    public String getTransferPageByCardNumber(Model model){
-        model.addAttribute("by","cardNumberForm");
-        return "transfers";
+    public String getTransferPageByCardNumber() {
+        return "transfer";
     }
 
-    @GetMapping("/by-phone-number")
-    public String getTransferPageByPhoneNumber(Model model){
-        model.addAttribute("by","phoneNumberForm");
-        return "transfers";
+
+    @PostMapping("/by-card-number")
+    public String validateAndGetConfirmPage(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO,
+                                            BindingResult bindingResult,
+                                            Model model) {
+        transferMoneyValidator.validate(transferMoneyDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "transfer";
+        }
+        CardEntity toCard = cardService.findByCardNumber(transferMoneyDTO.getCardNumber());
+        model.addAttribute("profile", toCard.getUserEntity().getPersonalDetailsEntity());
+        return "confirm-transfer";
     }
+
+
+    @PostMapping("/by-card-number/confirm")
+    public String transferMoney(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO,
+                                RedirectAttributes redirectAttributes) {
+        String from = transferMoneyDTO.getCardEntity().getCardNumber();
+        String to = transferMoneyDTO.getCardNumber();
+        long amount = transferMoneyDTO.getAmount();
+        boolean isCommitted = transferMoneyService.transferMoney(from, to, amount);
+        if (!isCommitted) {
+            redirectAttributes.addFlashAttribute("alert", "Something went wrong. Check your balance or try again later.");
+            return "redirect:/transfer/by-card-number";
+        }
+        return "redirect:/profile";
+    }
+
 }
