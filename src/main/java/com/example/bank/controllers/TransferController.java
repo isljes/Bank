@@ -8,6 +8,7 @@ import com.example.bank.services.TransferMoneyService;
 import com.example.bank.services.UserService;
 import com.example.bank.validation.TransferMoneyValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -36,14 +37,15 @@ public class TransferController {
         model.addAttribute("selectCard", currentUser.getCardEntities());
     }
 
-
     @GetMapping("/by-card-number")
+    @PreAuthorize("hasAuthority('MONEY_TRANSFER')")
     public String getTransferPageByCardNumber() {
         return "transfer";
     }
 
 
     @PostMapping("/by-card-number")
+    @PreAuthorize("hasAuthority('MONEY_TRANSFER')")
     public String validateAndGetConfirmPage(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO,
                                             BindingResult bindingResult,
                                             Model model) {
@@ -58,6 +60,7 @@ public class TransferController {
 
 
     @PostMapping("/by-card-number/confirm")
+    @PreAuthorize("hasAuthority('MONEY_TRANSFER')")
     public String transferMoney(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO,
                                 RedirectAttributes redirectAttributes) {
         String from = transferMoneyDTO.getCardEntity().getCardNumber();
