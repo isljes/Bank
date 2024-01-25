@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
     password varchar(300) not null ,
     status varchar(30) not null default 'ACTIVE',
     role varchar(45) not null default 'UNCONFIRMED_USER',
-    activation_code varchar(200)
+    confirmation_code varchar(200)
 );
 
 CREATE TABLE IF NOT EXISTS cards(
@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS cards(
     date date not null ,
     cvv varchar(60) not null ,
     status varchar(30) not null default 'NOT_ACTIVE',
+    payment_system varchar(20) not null ,
+    card_type varchar(20) not null ,
+    balance bigint ,
     user_id bigint references users(id) not null
 );
 
