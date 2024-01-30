@@ -1,6 +1,6 @@
-package com.example.bank.custom_exception;
+package com.example.bank.customexception;
 
-public class PersonalDetailsNotFoundException extends NotFoundException{
+public class PersonalDetailsNotFoundException extends DAOException {
     public PersonalDetailsNotFoundException(String message) {
         super(message);
     }
