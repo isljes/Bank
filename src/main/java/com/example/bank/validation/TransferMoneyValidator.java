@@ -1,6 +1,7 @@
 package com.example.bank.validation;
 
-import com.example.bank.custom_exception.CardNotFoundException;
+import com.example.bank.customexception.CardNotFoundException;
+import com.example.bank.customexception.DAOException;
 import com.example.bank.dto.TransferMoneyDTO;
 import com.example.bank.model.CardEntity;
 import com.example.bank.model.CardType;
@@ -30,7 +31,7 @@ public class TransferMoneyValidator implements Validator {
         if(cardService.checkCorrectnessCardNumber(cardNumber)){
             try {
                 cardService.findByCardNumber(cardNumber);
-            }catch (CardNotFoundException e){
+            }catch (DAOException ex){
                 errors.rejectValue("cardNumber","","User with such card number does not exist");
                 transferMoneyDTO.setCardNumber(null);
             }

@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests(authorize->{
                     authorize.requestMatchers("/registration","/login","/forgot-password/**").hasRole("ANONYMOUS");
-                    authorize.requestMatchers("/css/**","/js/**").permitAll();
+                    authorize.requestMatchers("/css/**","/js/**","/test/**").permitAll();
                   authorize.anyRequest().authenticated();
                 })
 

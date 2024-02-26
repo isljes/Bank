@@ -1,11 +1,13 @@
 package com.example.bank.services;
 
+import com.example.bank.customexception.DAOException;
+import com.example.bank.customexception.UsernameNotFoundException;
+import com.example.bank.exceptionhandling.UIExceptionDTO;
 import com.example.bank.model.Role;
 import com.example.bank.model.Status;
 import com.example.bank.model.UserEntity;
 import com.example.bank.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +31,13 @@ public class UserService {
     }
 
     public UserEntity findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(String.format("User with %s id does`t exist", id)));
+        return userRepository.findById(id).orElseThrow(() -> new DAOException(
+                new UsernameNotFoundException(String.format("User with %s id does`t exist", id))));
     }
 
     public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with %s email does`t exist", email)));
+        return userRepository.findByEmail(email).orElseThrow(() ->new DAOException(
+                new UsernameNotFoundException(String.format("User with %s email does`t exist", email))));
     }
 
     public boolean existsByEmail(String email) {

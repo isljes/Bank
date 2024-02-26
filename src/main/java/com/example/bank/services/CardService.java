@@ -1,11 +1,13 @@
 package com.example.bank.services;
 
-import com.example.bank.custom_exception.CardNotFoundException;
+import com.example.bank.customexception.CardNotFoundException;
+import com.example.bank.customexception.DAOException;
 import com.example.bank.model.CardEntity;
 import com.example.bank.model.PaymentSystem;
 import com.example.bank.model.Status;
 import com.example.bank.repositories.CardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -26,13 +28,13 @@ public class CardService {
     }
 
     public CardEntity findByCardNumber(String cardNumber) {
-        return cardRepository.findByCardNumber(cardNumber).orElseThrow(() ->
-                new CardNotFoundException(String.format("Card with %s card number does`t exist", cardNumber)));
+        return cardRepository.findByCardNumber(cardNumber).orElseThrow(() ->new DAOException(
+                new CardNotFoundException(String.format("Card with %s card number does`t exist", cardNumber))));
     }
 
     public CardEntity findById(Long id){
-        return cardRepository.findById(id).orElseThrow(() ->
-                new CardNotFoundException(String.format("Card with %s id does`t exist", id)));
+        return cardRepository.findById(id).orElseThrow(() ->new DAOException(
+                new CardNotFoundException(String.format("Card with %s id does`t exist", id))));
     }
 
     public void activateCard(Long id) {

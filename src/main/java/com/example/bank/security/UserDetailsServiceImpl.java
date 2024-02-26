@@ -1,6 +1,7 @@
 
 package com.example.bank.security;
 
+import com.example.bank.customexception.DAOException;
 import com.example.bank.model.UserEntity;
 import com.example.bank.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     private final UserRepository userRepository;
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
         UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(()->
-                new UsernameNotFoundException(String.format("User with %s email does`t exists",email)));
+                new DAOException(new UsernameNotFoundException(String.format("User with %s email does`t exists",email))));
         return SecurityUser.fromUser(userEntity);
     }
 }

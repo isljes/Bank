@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="PATTERN_FOR_CONSOLE">%d %highlight{%p} %c{1.} [%t] %m%n</Property>
+        <Property name="PATTERN_FOR_FILE">%d %p  %c{1.} [%t] %m%n</Property>
+        <Property name="LOG_FILE">logs/app.log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN_FOR_CONSOLE}" disableAnsi="false"/>
+        </Console>
+        <File name="LogToFile" fileName="${LOG_FILE}">
+            <PatternLayout pattern="${PATTERN_FOR_FILE}" disableAnsi="false"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.example.bank" level="TRACE" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="LogToFile"/>
+        </Logger>
+
+        <Root level="WARN">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="LogToFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
