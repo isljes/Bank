@@ -13,7 +13,7 @@
 <section class="bg-light vh-100">
     <!--Navbar-->
     <th:block th:insert="~{fragments/navabar::navbar}"/>
-    <div class="container mt-5 py-4 " th:object="${profile}">
+    <div class="container py-4 " th:object="${profile}">
         <div class="row">
             <div id="emailAlert" class="alert alert-info alert-dismissible" role="alert">
                 <div th:utext="#{profile.avatar.alert.confirm.email}" id="selectedAssetsDetails">null</div>
@@ -22,16 +22,16 @@
         </div>
         <div class="row">
             <!--Avatar-->
-            <div class="col-md-4 pt-4">
-                <div class="card bg-dark mb-4" style="border-radius: 1rem">
+            <div class="col-md-4 pt-2">
+                <div class="card bg-dark mb-2 px-5" style="border-radius: 1rem">
                     <div class="card-body text-center">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                              alt="avatar"
                              class="rounded-circle img-fluid">
-                        <h5 class="my-3 text-white" th:text="*{userEntity.email}">null</h5>
+                        <h6 class="my-1 text-white" th:text="*{userEntity.email}">null</h6>
                         <form id="form-confirm-email" th:action="@{/confirm-email}" method="post">
                             <div sec:authorize="hasAuthority('CONFIRM_EMAIL')">
-                                <button id="btn-confirm-email" class="btn btn-outline-warning btn-shadow-none"
+                                <button id="btn-confirm-email" class="btn btn-sm btn-outline-warning btn-shadow-none"
                                         type="submit"
                                         th:utext="#{profile.avatar.button.confirm.email}">
                                     Confirm email
@@ -41,7 +41,7 @@
                         </form>
 
                         <div sec:authorize="!hasAuthority('CONFIRM_EMAIL')">
-                            <button class="btn btn-outline-success btn-shadow-none border-0"
+                            <button class="btn btn-sm  btn-outline-success btn-shadow-none border-0"
                                     th:utext="#{profile.avatar.button.confirmed.email}" disabled>
                                 Confirmed email
                             </button>
@@ -50,14 +50,14 @@
                 </div>
             </div>
             <!--Form-->
-            <div class="col-md-8 pt-4">
-                <div class="card bg-dark mb-4" style="border-radius: 1rem">
+            <div class="col-md-8 pt-2">
+                <div class="card bg-dark mb-2" style="border-radius: 1rem">
                     <div class="card-body text-white">
                         <form id="personal-details-form" th:action="@{/profile}" method="post">
-                            <div class="text-center mt-3 mb-5">
+                            <div class="text-center mt-1">
                                 <p class="text-bald" th:utext="#{profile.form.title}">Personal Details</p>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mt-1">
                                 <label for="inputName" class="col-sm-3 col-form-label ps-4"
                                        th:utext="#{profile.form.name}">Name :</label>
                                 <div class="col-sm-8">
@@ -67,8 +67,8 @@
                                            id="inputName" disabled>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group row mb-1 mt-4">
+                            <hr class="my-1">
+                            <div class="form-group row mt-1">
                                 <label for="inputSurname" class="col-sm-3 col-form-label ps-4"
                                        th:utext="#{profile.form.surname}">Surname :</label>
                                 <div class="col-sm-9">
@@ -78,8 +78,8 @@
                                            id="inputSurname" disabled>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group row mb-1 mt-3">
+                            <hr class="my-1">
+                            <div class="form-group row mt-1">
                                 <label for="inputBirthdate" class="col-sm-3 col-form-label ps-4"
                                        th:utext="#{profile.form.birthdate}">Birthdate :</label>
                                 <div class="col-sm-9">
@@ -89,8 +89,8 @@
                                            id="inputBirthdate" disabled>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group row mb-1 mt-3">
+                            <hr class="my-1">
+                            <div class="form-group row mt-1">
                                 <label for="inputAddress" class="col-sm-3 col-form-label ps-4"
                                        th:utext="#{profile.form.address}">Address :</label>
                                 <div class="col-sm-9">
@@ -100,8 +100,8 @@
                                            id="inputAddress" disabled>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group row mb-2 mt-3">
+                            <hr class="my-1">
+                            <div class="form-group row mt-1">
                                 <label for="inputPhoneNumber" class="col-sm-3 col-form-label ps-4"
                                        th:utext="#{profile.form.phone-number}">Phone number :</label>
                                 <div class="col-sm-9">
@@ -114,54 +114,25 @@
                                 <input id="inputId" type="hidden" th:field="*{id}">
                                 <input id="inputUserEntity" type="hidden" th:field="*{userEntity}">
                             </div>
-                            <hr>
+                            <hr class="mt-1 mb-4">
                             <div sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')">
                                 <div class="form-group row d-flex justify-content-end ">
-                                    <div class="col-sm-2 mx-3">
+                                    <div class="col-sm-2 mx-2">
                                         <button id="saveChangesButton" type="submit"
-                                                class="btn btn-outline-warning btn-lg "
+                                                class="btn btn-outline-warning btn-md "
                                                 th:utext="#{profile.form.button.save}" disabled>
                                             Save
                                         </button>
                                     </div>
-                                    <div class="col-sm-2 mx-3 ">
+                                    <div class="col-sm-2 mx-2 ">
                                         <button id="editButton" type="button"
-                                                class="btn btn-outline-success btn-lg"
+                                                class="btn btn-outline-success btn-md"
                                                 th:utext="#{profile.form.button.edit}">Edit
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--Card Table-->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card bg-dark" style="border-radius: 1rem">
-                    <div class="card-body">
-                        <table class="table table-dark table-hover ">
-                            <thead>
-                            <tr>
-                                <th th:utext="#{profile.card-table.head.card-number}">Card number</th>
-                                <th th:utext="#{profile.card-table.head.date}">Date</th>
-                                <th th:utext="#{profile.card-table.head.cvv}">CVV</th>
-                                <th th:utext="#{profile.card-table.head.payment-system}">Payment System</th>
-                                <th th:utext="#{profile.card-table.head.status}">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="card:${cards}">
-                                <th th:text="${card.cardNumber}">Null</th>
-                                <th th:text="${card.date}">Null</th>
-                                <th th:text="${card.cvv}">Null</th>
-                                <th th:text="${card.paymentSystem}">Null</th>
-                                <th th:text="${card.status}">Null</th>
-                            </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

@@ -11,32 +11,31 @@
 <body>
 <section class="vh-100 bg-light">
     <th:block th:insert="~{fragments/navabar::navbar}"/>
-    <div class="container py-5">
+    <div class="container py-4">
         <div class="row" th:if="${alert}!=null">
             <div id="alert" class="alert alert-warning alert-dismissible" role="alert">
                 <div th:utext="${alert}" id="selectedAssetsDetails">null</div>
                 <button type="button" class="btn-close" aria-label="Close"></button>
             </div>
         </div>
-        <div class="row d-flex align-items-center justify-content-center mt-5">
+        <div class="row d-flex align-items-center justify-content-center mt-2">
             <div class="col-6">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-center justify-content-center">
-                            <h3 class="text-white mb-4" th:utext="#{transfer.form.title}">Transfer</h3>
+                            <h3 class="text-white mb-3" th:utext="#{transfer.form.title}">Transfer</h3>
                         </div>
                         <form th:action="@{by-card-number}" method="post" th:object="${transferMoneyDTO}">
-                            <div class="form-floating mb-4">
+                            <div class="form-floating mb-3">
                                 <div class="mb-3">
-                                    <h5><label for="card-number-input" class="form-label"
-                                               th:utext="#{transfer.form.label.card-number}">Enter card number</label>
-                                    </h5>
+                                    <h6><label for="card-number-input" class="form-label"
+                                               th:utext="#{transfer.form.label.card-number}">Enter card number</label></h6>
                                     <input type="text" class="form-control bg-dark shadow-none text-white"
                                            id="card-number-input" placeholder="1234 1234 1234 1234"
                                            th:field="*{cardNumber}"
                                            pattern="([0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4})|([0-9]{16})"/>
                                 </div>
-                                <div class="text-danger mb-2">
+                                <div class="text-danger mb-1">
                                     <p>
                                         <th:block th:if="${#fields.hasErrors()}">
                                             <div th:errorclass="invalid-input" th:errors="*{cardNumber}"></div>
@@ -44,8 +43,8 @@
                                     </p>
                                 </div>
                                 <div class="mb-3">
-                                    <h5><label for="amount-input" class="form-label"
-                                               th:utext="#{transfer.form.label.amount}">Enter amount</label></h5>
+                                    <h6><label for="amount-input" class="form-label"
+                                               th:utext="#{transfer.form.label.amount}">Enter amount</label></h6>
                                     <div class="input-group flex-nowrap">
                                         <input id="amount-input" type="text"
                                                class="form-control bg-dark shadow-none text-white"
@@ -53,7 +52,7 @@
                                         <span class="input-group-text">$</span>
                                     </div>
                                 </div>
-                                <div class="text-danger mb-2">
+                                <div class="text-danger mb-1">
                                     <p>
                                         <th:block th:if="${#fields.hasErrors()}">
                                             <div th:errorclass="invalid-input" th:errors="*{amount}"></div>
@@ -61,7 +60,7 @@
                                     </p>
                                 </div>
                                 <div class="mb-3">
-                                    <h5 th:utext="#{transfer.form.select.card}">Select card</h5>
+                                    <h6 th:utext="#{transfer.form.select.card}">Select card</h6>
                                     <div class="input-group">
                                         <select class="form-select bg-dark text-white" th:field="*{cardEntity}">
                                             <option th:each="currcard:${selectCard}" th:value="${currcard.id}"
@@ -71,7 +70,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="text-danger mb-2">
+                                <div class="text-danger mb-1">
                                     <p>
                                         <th:block th:if="${#fields.hasErrors()}">
                                             <div th:errorclass="invalid-input" th:errors="*{cardEntity}"></div>

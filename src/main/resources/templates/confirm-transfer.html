@@ -3,35 +3,35 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <th:block th:insert="~{fragments/bootstrap::bootstrap-head}"/>
-    <titlet th:utext="#{confirm-transfer.title}">Confirm transfer</titlet>
+    <title th:utext="#{confirm-transfer.title}">Confirm transfer</title>
 </head>
 <body>
 <section class="vh-100 bg-light">
     <th:block th:insert="~{fragments/navabar::navbar}"/>
-    <div class="container py-5">
-        <div class="row d-flex align-items-center justify-content-center mt-5">
-            <div class="col-6">
+    <div class="container py-4">
+        <div class="row d-flex align-items-center justify-content-center mt-2">
+            <div class="col-9">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body p-4">
                         <form th:object="${transferMoneyDTO}" th:action="@{by-card-number/confirm}" method="post">
                             <div class="row mb-3">
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <h3 class="text-white mb-4" th:utext="#{confirm-transfer.form.title}">Confirm
-                                        transfer</h3>
+                                    <h4 class="text-white mb-4" th:utext="#{confirm-transfer.form.title}">Confirm
+                                        transfer</h4>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h5 class="text-white mb-4" th:utext="#{confirm-transfer.form.to-card}">To
+                                    <h5 class="text-white mb-3" th:utext="#{confirm-transfer.form.to-card}">To
                                         Card: </h5>
                                 </div>
                                 <div class="col-8">
-                                    <h5 th:text="*{cardNumber}"></h5>
+                                    <h5   th:text="*{cardNumber}"></h5>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h5 class="text-white mb-4" th:utext="#{confirm-transfer.form.name}">Name: </h5>
+                                    <h5 class="text-white mb-3" th:utext="#{confirm-transfer.form.name}">Name: </h5>
                                 </div>
                                 <div class="col-8">
                                     <h5 th:text="${profile.name}"></h5>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h5 class="text-white mb-4" th:utext="#{confirm-transfer.form.surname}">
+                                    <h5 class="text-white mb-3" th:utext="#{confirm-transfer.form.surname}">
                                         Surname: </h5>
                                 </div>
                                 <div class="col-8">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <h5 class="text-white mb-4" th:utext="#{confirm-transfer.form.amount}">Amount: </h5>
+                                    <h5 class="text-white mb-3" th:utext="#{confirm-transfer.form.amount}">Amount: </h5>
                                 </div>
                                 <div class="col-8">
                                     <h5 th:text="*{amount+'$'}"></h5>

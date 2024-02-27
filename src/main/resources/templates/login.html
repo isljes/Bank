@@ -7,13 +7,13 @@
 </head>
 <body>
 <section class="vh-100 bg-light">
-    <div class="container py-5 h-100">
+    <div class="container py-4 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card bg-dark  text-white" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
-                        <div class="mb-md-5 mt-md-4 pb-5">
-                            <h2 class="fw-bold mb-2 text-uppercase" th:utext="#{login.form.title}">Sign in</h2>
+                    <div class="card-body p-4 text-center">
+                        <div class="my-md-2">
+                            <h3 class="fw-bold mb-2 text-uppercase" th:utext="#{login.form.title}">Sign in</h3>
                             <p class="text-white-50 mb-5" th:utext="#{login.form.subtitle}">Please enter your email and
                                 password!</p>
                             <form th:action="@{/login}" method="post" autocomplete="on">
@@ -40,20 +40,20 @@
                                     </div>
                                     </p>
                                     <!-- Checkbox -->
-                                    <div class="checkbox mb-4">
+                                    <div class="checkbox mb-2">
                                         <input class="form-check-input" id="remember" type="checkbox" name="remember-me"
                                                value="true" checked>
                                         <label for="remember" th:utext="#{login.form.remember-me}">Remember me</label>
                                     </div>
                                     <!-- Button Login -->
-                                    <button class=" mb-5 pb-lg-2 btn btn-outline-light btn-lg px-5 text-uppercase"
+                                    <button class=" mb-2 pb-lg-2 btn btn-outline-light btn-lg px-5 text-uppercase"
                                             type="submit" th:utext="#{login.form.button.login}">
                                         LOGIN
                                     </button>
                                 </div>
                             </form>
                             <!--Forgot Password -->
-                            <p class="small mb-5 pb-lg-2">
+                            <p class="small mb-2 pb-lg-2">
                                 <a class="text-white-50" style="text-decoration: none" th:href="@{/forgot-password}"
                                    th:utext="#{login.form.ref.forgot-password}">Forgot password?</a>
                             </p>
