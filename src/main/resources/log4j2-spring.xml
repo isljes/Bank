@@ -21,7 +21,6 @@
 
         <Root level="WARN">
             <AppenderRef ref="LogToConsole"/>
-            <AppenderRef ref="LogToFile"/>
         </Root>
     </Loggers>
 </Configuration>

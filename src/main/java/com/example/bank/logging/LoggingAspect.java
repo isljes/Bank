@@ -17,27 +17,34 @@ public class LoggingAspect {
     @Pointcut("within(com.example.bank.services.*))")
     public void anyMethodFromServices(){};
 
+    @Pointcut("@annotation(com.example.bank.logging.ManualLogging)")
+    public void anyMarkedMethodManualLogging(){};
+
     @Pointcut("execution(public * *(*,..))")
-    public void anyPublicServiceMethodWithArgs(){};
+    public void anyPublicMethodWithArgs(){};
 
     @Pointcut("execution(public * *())")
-    public void anyPublicServiceMethodWithoutArgs(){};
+    public void anyPublicMethodWithoutArgs(){};
 
 
 
-    @Around("anyMethodFromServices()&&anyPublicServiceMethodWithArgs()")
+    @Around("anyMethodFromServices()&&anyPublicMethodWithArgs()&&!anyMarkedMethodManualLogging()")
     public Object aroundAnyServiceMethodsWithArgs(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        log.trace("Execute {} with arg={}",proceedingJoinPoint.getSignature(),Arrays.toString(proceedingJoinPoint.getArgs()));
+        log.trace("Execute {} with args={}",proceedingJoinPoint.getSignature(),Arrays.toString(proceedingJoinPoint.getArgs()));
         var targetMethodResult=proceedingJoinPoint.proceed();
-        log.trace("Return {}",targetMethodResult.getClass());
+        if (targetMethodResult!=null)log.trace("Return {}",targetMethodResult.getClass());
+        else log.trace("Method {} was executed",proceedingJoinPoint.getSignature());
         return targetMethodResult;
     }
-    @Around("anyMethodFromServices()&&anyPublicServiceMethodWithoutArgs()")
+
+    @Around("anyMethodFromServices()&&anyPublicMethodWithoutArgs()&&!anyMarkedMethodManualLogging()")
     public Object aroundAnyServiceMethodsWithoutArgs(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         log.trace("Execute {} ",proceedingJoinPoint.getSignature());
         var targetMethodResult=proceedingJoinPoint.proceed();
-        log.trace("Return {}",targetMethodResult.getClass());
+        if (targetMethodResult!=null) log.trace("Return {}",targetMethodResult.getClass());
+        else log.trace("Method {} was executed",proceedingJoinPoint.getSignature());
         return targetMethodResult;
     }
+
 
 }

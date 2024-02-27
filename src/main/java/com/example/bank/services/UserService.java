@@ -2,12 +2,13 @@ package com.example.bank.services;
 
 import com.example.bank.customexception.DAOException;
 import com.example.bank.customexception.UsernameNotFoundException;
-import com.example.bank.exceptionhandling.UIExceptionDTO;
+import com.example.bank.logging.ManualLogging;
 import com.example.bank.model.Role;
 import com.example.bank.model.Status;
 import com.example.bank.model.UserEntity;
 import com.example.bank.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -44,8 +46,8 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public void updateUser(UserEntity updateUser) {
-        userRepository.save(updateUser);
+    public UserEntity updateUser(UserEntity updateUser) {
+        return userRepository.save(updateUser);
     }
 
     public void deleteUserById(Long id) {
@@ -61,15 +63,19 @@ public class UserService {
         personalDetailsService.createPersonalDetails(savedUser);
     }
 
+    @ManualLogging
     public void changePassword(String email, String password) {
+        log.trace("Execute public void com.example.bank.services.UserService.changePassword(String,String)");
         UserEntity user = findByEmail(email);
         user.setConfirmationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(password));
         updateUser(user);
+        log.trace("Completed public void com.example.bank.services.UserService.changePassword(String,String)");
     }
 
+    @ManualLogging
     public boolean confirmEmail(String email, String confirmationCode) {
-
+        log.trace("Execute public void com.example.bank.services.UserService.confirmEmail(String,String)");
         UserEntity user = findByEmail(email);
         String actualConfirmationCode = user.getConfirmationCode();
 
@@ -80,9 +86,10 @@ public class UserService {
             user.setConfirmationCode(UUID.randomUUID().toString());
             updateUser(user);
             sessionService.updateUserRole(user.getEmail(), Role.USER);
+            log.trace("Completed public void com.example.bank.services.UserService.confirmEmail(String,String)");
             return true;
         }
-
+        log.warn("public void com.example.bank.services.UserService.confirmEmail(String,String) -> Wrong confirmation code");
         return false;
     }
 }

@@ -15,14 +15,14 @@ public class ExceptionController {
     public String daoException(DAOException daoException,
                                RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("UIExceptionDTO",new UIExceptionDTO(HttpStatus.NOT_FOUND,daoException.getMessage()));
-        log.warn("DAOException : {}",daoException.getMessage());
+        log.warn("DAOException -> {}",daoException.getMessage());
         return "redirect:/welcome";
     }
 
     @ExceptionHandler(Exception.class)
     public String globalException(Exception exception,RedirectAttributes redirectAttributes){
-        //redirectAttributes.addFlashAttribute("UIExceptionDTO",new UIExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR,exception.getMessage()));
-        System.out.println(exception.getMessage()+exception.getCause());
+        redirectAttributes.addFlashAttribute("UIExceptionDTO",new UIExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR,"Something went wrong"));
+        log.warn("Exception->{}",exception.getMessage());
         return "redirect:/welcome";
     }
 }

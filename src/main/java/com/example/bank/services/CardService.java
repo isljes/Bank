@@ -7,7 +7,6 @@ import com.example.bank.model.PaymentSystem;
 import com.example.bank.model.Status;
 import com.example.bank.repositories.CardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.core.CrudMethods;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
