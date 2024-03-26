@@ -1,7 +1,6 @@
 package com.example.bank.validation;
 
-import com.example.bank.customexception.CardNotFoundException;
-import com.example.bank.customexception.DAOException;
+import com.example.bank.services.exception.DAOException;
 import com.example.bank.dto.TransferMoneyDTO;
 import com.example.bank.model.CardEntity;
 import com.example.bank.model.CardType;

@@ -1,4 +1,4 @@
-package com.example.bank.customexception;
+package com.example.bank.services.exception;
 
 public class CardNotFoundException extends DAOException {
     public CardNotFoundException(String message) {

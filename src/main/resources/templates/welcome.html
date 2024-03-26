@@ -4,34 +4,145 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
-    <th:block th:insert="~{fragments/bootstrap::bootstrap-head}"/>
-    <link href="/css/autocomplete.css" type="text/css" rel="stylesheet"/>
-    <title>Welcome</title>
+    <th:block th:insert="~{fragments/bootstrap :: bootstrap-head}"/>
+    <th:block th:insert="~{fragments/ajax :: ajax}"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css"
+          integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q=="
+          crossorigin="anonymous"/>
+    <title th:utext="#{welcome.title}"></title>
 </head>
 <body>
 <section class="bg-light vh-100">
-    <!--Navbar-->
-    <th:block th:insert="~{fragments/navabar::navbar}"/>
-    <div class="container mt-5 py-4 ">
-        <div class="row" th:if="${UIExceptionDTO}!=null" >
-            <div id="emailAlert" class="alert alert-danger alert-dismissible" role="alert" th:object="${UIExceptionDTO}">
-                <div th:utext="*{status}" >null</div>
-                <div th:utext="*{message}" >null</div>
+    <th:block th:insert="~{fragments/navabar :: navbar}"/>
+    <div class="container mt-1 py-1 ">
+        <div class="row" th:if="${UIExceptionDTO}!=null">
+            <div id="emailAlert" class="alert alert-danger alert-dismissible" role="alert"
+                 th:object="${UIExceptionDTO}">
+                <div th:utext="*{status}">null</div>
+                <div th:utext="*{message}">null</div>
                 <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 pt-1">
+                <div class="card bg-dark mb-2 px-5" style="border-radius: 1rem">
+                    <div class="card-body">
+                        <h2 class="row text-light mb-3" th:utext="#{welcome.my-cards.title}"></h2>
+                        <div class="row" sec:authorize="hasAuthority('ISSUE_CARD')">
+                            <div class="col-md-2 m-1 p-1 bg-light" style="border-radius: 0.25rem"
+                                 th:each="card:${myCards}">
+                                <div class="row">
+                                    <div class="col-md-9 d-flex justify-content-start"
+                                         th:text="${card.balance +'&#8381'}"></div>
+                                    <div class="col-md-3 d-flex justify-content-end" th:text="${card.cardType}"></div>
+                                </div>
+                                <div class="row">
+                                    <div class=" d-flex justify-content-end"
+                                         th:text="${card.paymentSystem.name.concat(' ** ').concat(card.cardNumber.substring(12,16))}"></div>
+                                </div>
+                            </div>
+                            <button th:href="@{/card-issue}"
+                                    class="btn btn-outline-warn btn-shadow-none
+                                           border-0 col-md-2 m-1 p-1 bg-light border-shadow btn-fluid"
+                                    style="border-radius: 0.25rem">
+                                <h1 th:utext="#{welcome.my-cards.add-card}"></h1>
+                            </button>
+                        </div>
+                        <div sec:authorize="!hasAuthority('ISSUE_CARD')">
+                            <h2 class="d-flex justify-content-center align-items-center text-white-50 text-uppercase"
+                                th:utext="#{welcome.my-cards.confirm-message}"></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 pt-1">
+                <div class="card bg-dark mb-2 px-5" style="border-radius: 1rem">
+                    <div class="card-body">
+                        <form th:action="@{/welcome/update}" th:object="${selectedCurrenciesDTO}" method="post">
+                            <div class="row mb-3">
+                                <h4 class="col-6 text-light" th:utext="#{welcome.currency-rates.title}"></h4>
+                                <select class="selectpicker col-5 " multiple th:field="*{currencies}">
+                                    <option th:each="currencyCharCode:${allCurrenciesCharCodes}"
+                                            th:value="${currencyCharCode}" th:text="${currencyCharCode}">
+                                    </option>
+                                </select>
+                                <button class="btn btn-outline-info col-1 p-1" type="submit"
+                                        th:utext="#{welcome.currency-rates.submit-icon}"></button>
+                            </div>
+                            <div style=" max-height: 30vh; min-height: 30vh; overflow: auto">
+                                <table class="table table-dark table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th th:utext="#{welcome.currency-rates.table.head.char-code}"></th>
+                                            <th th:utext="#{welcome.currency-rates.table.head.name}"></th>
+                                            <th th:utext="#{welcome.currency-rates.table.head.actual}"></th>
+                                            <th th:utext="#{welcome.currency-rates.table.head.previous}"></th>
+                                            <th th:utext="#{welcome.currency-rates.table.head.trend}"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="selectedCurrency:${selectedCurrencies}">
+                                            <th class="col-md-2" th:text="${selectedCurrency.charCode}">/th>
+                                            <th class="col-md-4" th:text="${selectedCurrency.name}"></th>
+                                            <th class="col-md-3" th:text="${selectedCurrency.value}"></th>
+                                            <th class="col-md-3" th:utext="${selectedCurrency.previous}"></th>
+                                            <th th:if="${selectedCurrency.value>selectedCurrency.previous}"
+                                                class="col-md-3 text-success ps-4" th:utext="#{welcome.currency-rates.table.head.trend.up}">
+                                            </th>
+                                            <th th:if="${selectedCurrency.value<=selectedCurrency.previous}"
+                                                class="col-md-3 text-danger ps-4" th:utext="#{welcome.currency-rates.table.head.trend.down}">
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 pt-1">
+                <div class="card bg-dark mb-2 px-5" style="border-radius: 1rem">
+                    <div class="card-body">
+                        <h4 class="row mb-3 text-light" th:utext="#{welcome.transfers.title}"></h4>
+                        <div style=" max-height: 30vh; min-height: 30vh; overflow: auto">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-3" th:utext="#{welcome.transfers.table.head.card}"></th>
+                                        <th class="col-md-4" th:utext="#{welcome.transfers.table.head.amount}"></th>
+                                        <th class="col-md-3" th:utext="#{welcome.transfers.table.head.time}"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="transaction:${transactionHistoryLast24h}">
+                                        <th class="col-md-4"
+                                            th:text="${'** '+transaction.card.cardNumber.substring(12,16)}">
+                                        </th>
+                                        <th th:if="${transaction.amount}<0" class="col-md-5 text-danger text-center"
+                                            th:text="${transaction.amount}">
+                                        </th>
+                                        <th th:if="${transaction.amount}>0" class="col-md-5 text-success text-center"
+                                            th:text="${'+'+transaction.amount}">
+                                        </th>
+                                        <th class="col-md-3"
+                                            th:text="${#dates.format(transaction.timestamp,timePattern)}"></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
-<th:block th:insert="~{fragments/bootstrap::bootstrap-scripts}"/>
 
-
-<p th:text="${userEntityUsername}"> Welcome</p>
-<br/>
-Your SessionID <p th:text="${sessionID}">null</p>
-<br/>
-<form th:action="@{/logout}" method="post">
-
-    <input type="submit" value="Log Out"/>
-</form>
+<th:block th:insert="~{fragments/bootstrap :: bootstrap-scripts}"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"
+        integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

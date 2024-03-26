@@ -2,16 +2,15 @@ package com.example.bank.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cards")
@@ -57,5 +56,9 @@ public class CardEntity implements Serializable{
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private UserEntity userEntity;
+
+    @OneToMany(mappedBy = "card",fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<TransactionHistoryEntity> transactionHistoryEntity;
 
 }

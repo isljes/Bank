@@ -66,12 +66,8 @@ public class TransferController {
         String from = transferMoneyDTO.getCardEntity().getCardNumber();
         String to = transferMoneyDTO.getCardNumber();
         long amount = transferMoneyDTO.getAmount();
-        boolean isCommitted = transferMoneyService.transferMoney(from, to, amount);
-        if (!isCommitted) {
-            redirectAttributes.addFlashAttribute("alert", "Something went wrong. Check your balance or try again later.");
-            return "redirect:/transfer/by-card-number";
-        }
-        return "redirect:/profile";
+        transferMoneyService.transferMoney(from, to, amount);
+        return "redirect:/welcome";
     }
 
 }

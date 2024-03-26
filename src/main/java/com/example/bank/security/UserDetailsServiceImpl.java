@@ -1,7 +1,7 @@
 
 package com.example.bank.security;
 
-import com.example.bank.customexception.DAOException;
+import com.example.bank.services.exception.DAOException;
 import com.example.bank.model.UserEntity;
 import com.example.bank.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,16 +1,12 @@
 package com.example.bank.controllers;
 
 import com.example.bank.model.UserEntity;
-import com.example.bank.services.CardService;
 import com.example.bank.services.SecurityService;
 import com.example.bank.services.UserService;
 import com.example.bank.validation.RegistrationValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,27 +21,12 @@ public class SecurityController {
     private final RegistrationValidator registrationValidator;
     private final UserService userService;
     private final SecurityService securityService;
-    private final CardService cardService;
 
 
     @GetMapping("/login")
     String login(HttpServletRequest request, Model model) {
         model.addAttribute("sessionId", request.getSession().getId());
         return "login";
-    }
-
-
-    @GetMapping("/welcome")
-    @PreAuthorize("authentication.authenticated")
-    public String getWelcomePage(@AuthenticationPrincipal UserDetails userDetails,
-                                 Model model,
-                                 HttpServletRequest request) {
-        model.addAttribute("allUsers", userService.findAll());
-        model.addAttribute("allCards", cardService.findAll());
-        model.addAttribute("userEntityUsername", userDetails.getUsername());
-        model.addAttribute("currentID", userService.findByEmail(userDetails.getUsername()).getId());
-        model.addAttribute("sessionID", request.getSession().getId());
-        return "welcome";
     }
 
 

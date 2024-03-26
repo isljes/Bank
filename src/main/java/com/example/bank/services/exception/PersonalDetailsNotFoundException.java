@@ -1,4 +1,4 @@
-package com.example.bank.customexception;
+package com.example.bank.services.exception;
 
 public class PersonalDetailsNotFoundException extends DAOException {
     public PersonalDetailsNotFoundException(String message) {
