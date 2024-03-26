@@ -28,3 +28,10 @@ CREATE TABLE IF NOT EXISTS personal_details(
     phone_number varchar(20),
     user_id bigint references users(id) not null
 );
+
+CREATE TABLE IF NOT EXISTS transaction_history(
+    card_id bigint references cards(id) not null primary key ,
+    amount bigint not null ,
+    datetime timestamp not null primary key
+
+);

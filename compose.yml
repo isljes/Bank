@@ -18,4 +18,4 @@ services:
       - POSTGRES_USER=kenik
 
     ports:
-      - '5432'
+      - '23413:5432'
