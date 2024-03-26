@@ -10,18 +10,18 @@
 <body>
 <section class="vh-100 bg-light">
     <th:block th:insert="~{fragments/navabar::navbar}"/>
-    <div class="container py-5">
+    <div class="container py-2">
         <div class="row d-flex align-items-center justify-content-center mt-5">
             <div class="col-8">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
-                    <div class="card-body p-5">
-                        <form th:action="@{/add-card}" method="post" th:object="${card}">
-                            <div class="mb-md-3 mt-md-4 pb-5 text-center text-uppercase" th:utext="#{card.issue}">
+                    <div class="card-body p-4">
+                        <form th:action="@{/card-issue}" method="post" th:object="${card}">
+                            <div class="mb-md-2 mt-md-2 pb-3 text-center text-uppercase" th:utext="#{card.issue}">
                                 ISSUE CARD
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="mb-md-5 mt-md-4 pb-5 text-start text-uppercase"
+                                    <div class="mb-md-5 mt-md-4 pb-4 text-start text-uppercase"
                                          th:utext="#{card.issue.1}">
                                         1. CHANGE PAYMENT SYSTEM :
                                     </div>

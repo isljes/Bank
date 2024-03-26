@@ -30,7 +30,7 @@ public class ProfileController {
     private final MailSenderService mailSenderService;
 
 
-    @GetMapping("/add-card")
+    @GetMapping("/card-issue")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
     public String getCardPage(Model model) {
         model.addAttribute("card",new CardEntity());
@@ -38,7 +38,7 @@ public class ProfileController {
     }
 
 
-    @PostMapping("/add-card")
+    @PostMapping("/card-issue")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
     public String saveCard(@AuthenticationPrincipal UserDetails userDetails,
                            @ModelAttribute("card")@Valid CardEntity card,

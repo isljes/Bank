@@ -18,7 +18,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             <li sec:authorize="hasAuthority('ISSUE_CARD')">
-                                <a class="dropdown-item" th:href="@{/add-card}" th:utext="#{navbar.card.issue-card}">Issue card</a>
+                                <a class="dropdown-item" th:href="@{/card-issue}" th:utext="#{navbar.card.issue-card}">Issue card</a>
                             </li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                         </ul>

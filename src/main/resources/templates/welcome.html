@@ -42,12 +42,12 @@
                                          th:text="${card.paymentSystem.name.concat(' ** ').concat(card.cardNumber.substring(12,16))}"></div>
                                 </div>
                             </div>
-                            <button th:href="@{/card-issue}"
+                            <a th:href="@{/card-issue}"
                                     class="btn btn-outline-warn btn-shadow-none
-                                           border-0 col-md-2 m-1 p-1 bg-light border-shadow btn-fluid"
+                                           border-0 col-md-2 m-1 p-3 bg-light border-shadow btn-fluid"
                                     style="border-radius: 0.25rem">
                                 <h1 th:utext="#{welcome.my-cards.add-card}"></h1>
-                            </button>
+                            </a>
                         </div>
                         <div sec:authorize="!hasAuthority('ISSUE_CARD')">
                             <h2 class="d-flex justify-content-center align-items-center text-white-50 text-uppercase"
