@@ -6,6 +6,9 @@ import com.example.bank.model.PersonalDetailsEntity;
 import com.example.bank.model.UserEntity;
 import com.example.bank.repositories.PersonalDetailsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +25,7 @@ public class PersonalDetailsServiceImpl implements PersonalDetailsService {
     }
 
     @Override
+    @Cacheable(value = "PersonalDetailsServiceImpl::findById",key = "id")
     public PersonalDetailsEntity findById(Long id){
         return personalDetailsRepository.findById(id).
                 orElseThrow(()-> new DAOException(
@@ -30,6 +34,7 @@ public class PersonalDetailsServiceImpl implements PersonalDetailsService {
     }
 
     @Override
+    @CachePut(value = "PersonalDetailsServiceImpl::findById",key = "#result.id",unless = "#result.id==null")
     public PersonalDetailsEntity createPersonalDetails(UserEntity user){
         PersonalDetailsEntity personalDetailsEntity=new PersonalDetailsEntity();
         personalDetailsEntity.setUserEntity(user);
@@ -37,7 +42,14 @@ public class PersonalDetailsServiceImpl implements PersonalDetailsService {
     }
 
     @Override
+    @CachePut(value = "PersonalDetailsServiceImpl::findById",key = "#result.id",unless = "#result.id==null")
     public PersonalDetailsEntity update(PersonalDetailsEntity personalDetailsEntity) {
         return personalDetailsRepository.save(personalDetailsEntity);
+    }
+
+    @Override
+    @CacheEvict(value = "PersonalDetailsServiceImpl::findById",key = "personalDetailsEntity.id")
+    public void delete(PersonalDetailsEntity personalDetailsEntity) {
+        personalDetailsRepository.delete(personalDetailsEntity);
     }
 }

@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransferMoneyServiceImpl implements TransferMoneyService {
 
-    private final CardService cardRepository;
+    private final CardService cardService;
 
     private final TransactionHistoryService transactionHistoryService;
 
@@ -30,8 +30,8 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
             noRetryFor = DAOException.class,
             recover = "transferMoneyRecover")
     public void transferMoney(String from, String to, long amount) {
-        CardEntity fromCard = cardRepository.findByCardNumber(from);
-        CardEntity toCard = cardRepository.findByCardNumber(to);
+        CardEntity fromCard = cardService.findByCardNumber(from);
+        CardEntity toCard = cardService.findByCardNumber(to);
         if (fromCard.getBalance() >= amount) {
             fromCard.setBalance(fromCard.getBalance() - amount);
             toCard.setBalance(toCard.getBalance() + amount);

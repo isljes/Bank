@@ -61,7 +61,7 @@ public class MailSenderServiceImpl implements MailSenderService {
         return message;
     }
 
-     void send(SimpleMailMessage message) {
+    void send(SimpleMailMessage message) {
         mailSender.send(message);
     }
 

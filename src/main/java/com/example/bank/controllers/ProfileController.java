@@ -1,12 +1,8 @@
 package com.example.bank.controllers;
 
-import com.example.bank.model.CardEntity;
-import com.example.bank.model.PersonalDetailsEntity;
-import com.example.bank.model.UserEntity;
-import com.example.bank.services.CardService;
-import com.example.bank.services.MailSenderService;
-import com.example.bank.services.PersonalDetailsService;
-import com.example.bank.services.UserService;
+import com.example.bank.dto.IssueCardDTO;
+import com.example.bank.model.*;
+import com.example.bank.services.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,12 +24,13 @@ public class ProfileController {
     private final UserService userService;
     private final PersonalDetailsService personalDetailsService;
     private final MailSenderService mailSenderService;
+    private final ConfirmationService confirmationService;
 
 
     @GetMapping("/card-issue")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
     public String getCardPage(Model model) {
-        model.addAttribute("card",new CardEntity());
+        model.addAttribute("card",new IssueCardDTO(PaymentSystem.MIR, CardType.CREDIT));
         return "card-issue";
     }
 
@@ -41,12 +38,8 @@ public class ProfileController {
     @PostMapping("/card-issue")
     @PreAuthorize("hasAuthority('ISSUE_CARD')")
     public String saveCard(@AuthenticationPrincipal UserDetails userDetails,
-                           @ModelAttribute("card")@Valid CardEntity card,
-                           BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return "card-issue";
-        }
-        cardService.createNewCard(userDetails.getUsername(), card);
+                           @ModelAttribute("card") IssueCardDTO issueCardDTO) {
+        cardService.createNewCard(userDetails.getUsername(), issueCardDTO);
         return "redirect:/welcome";
 
     }
@@ -85,7 +78,7 @@ public class ProfileController {
     public String confirmEmail(@RequestParam(name = "confirmation-code") String confirmationCode,
                                @RequestParam(name = "email") String email,
                                Model model){
-        boolean isConfirmed=userService.confirmEmail(email, confirmationCode);
+        boolean isConfirmed=confirmationService.confirmEmail(email, confirmationCode);
 
         if(!isConfirmed){
             model.addAttribute("response","Confirmation code is expired");

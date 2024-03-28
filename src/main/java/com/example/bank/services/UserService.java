@@ -2,9 +2,10 @@ package com.example.bank.services;
 
 import com.example.bank.logging.ManualLogging;
 import com.example.bank.model.UserEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Transactional(readOnly = true)
 public interface UserService {
     List<UserEntity> findAll();
 
@@ -13,16 +14,10 @@ public interface UserService {
     UserEntity findByEmail(String email);
 
     boolean existsByEmail(String email);
-
+    @Transactional
     UserEntity updateUser(UserEntity updateUser);
-
-    void deleteUserById(Long id);
-
-    void createNewUserAfterRegistration(UserEntity userEntity);
-
-    @ManualLogging
-    void changePassword(String email, String password);
-
-    @ManualLogging
-    boolean confirmEmail(String email, String confirmationCode);
+    @Transactional
+    void delete(UserEntity user);
+    @Transactional
+    UserEntity createNewUserAfterRegistration(UserEntity userEntity);
 }

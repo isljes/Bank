@@ -47,7 +47,7 @@ public class UserEntity implements Serializable {
     @Column(name = "role")
     private Role role;
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity",fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<CardEntity> cardEntities;
 

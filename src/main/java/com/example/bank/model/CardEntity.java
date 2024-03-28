@@ -2,12 +2,10 @@ package com.example.bank.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
@@ -18,6 +16,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
+@Builder
+@AllArgsConstructor
 public class CardEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +52,7 @@ public class CardEntity implements Serializable{
     @Column(name = "balance")
     private long balance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private UserEntity userEntity;

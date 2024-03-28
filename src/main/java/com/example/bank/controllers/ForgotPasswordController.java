@@ -2,6 +2,7 @@ package com.example.bank.controllers;
 
 import com.example.bank.model.UserEntity;
 import com.example.bank.services.MailSenderService;
+import com.example.bank.services.SecurityService;
 import com.example.bank.services.UserService;
 import com.example.bank.validation.ChangePasswordValidator;
 import com.example.bank.validation.ForgotPasswordValidator;
@@ -24,6 +25,7 @@ public class ForgotPasswordController {
     private final ForgotPasswordValidator forgotPasswordValidator;
     private final ChangePasswordValidator changePasswordValidator;
     private final UserService userService;
+    private final SecurityService securityService;
     private final MailSenderService mailSenderService;
 
 
@@ -72,7 +74,7 @@ public class ForgotPasswordController {
         if(bindingResult.hasErrors()){
             return "reset-password";
         }
-        userService.changePassword(userEntity.getEmail(), userEntity.getPassword());
+        securityService.changePassword(userEntity.getEmail(), userEntity.getPassword());
         model.addAttribute("response","Password successful changed ");
         return "response";
     }

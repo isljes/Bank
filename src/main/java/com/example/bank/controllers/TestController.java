@@ -1,29 +1,48 @@
 package com.example.bank.controllers;
 
-import com.example.bank.customexception.CardNotFoundException;
-import com.example.bank.customexception.DAOException;
-import com.example.bank.model.PersonalDetailsEntity;
-import com.example.bank.services.CardService;
-import com.example.bank.services.PersonalDetailsService;
+import com.example.bank.dto.IssueCardDTO;
+import com.example.bank.model.CardEntity;
+import com.example.bank.model.CardType;
+import com.example.bank.model.PaymentSystem;
+import com.example.bank.model.TransactionHistoryEntity;
+import com.example.bank.repositories.CardRepository;
+import com.example.bank.services.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Controller
 @RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestController {
 
-    private final PersonalDetailsService personalDetailsService;
+    private final PersonalDetailsServiceImpl personalDetailsService;
     private final CardService cardService;
+    private final CurrencyRateServiceImpl currencyRateService;
+    private final CacheManager cacheManager;
+    private final ObjectMapper objectMapper;
+    private final TransferMoneyServiceImpl transferMoneyService;
+    private final CardRepository cardRepository;
+    private final TransactionHistoryService transactionHistoryService;
+
+
 
     @GetMapping
-    public ResponseEntity<PersonalDetailsEntity> getProfileById(@RequestParam(value = "id") long id){
-        cardService.findById(id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public String test(Model model) throws Exception {
+        cardService.findById(13L);
+        cardService.findById(13L);
+        cardService.findById(13L);
+        return "adapt";
     }
+
 }

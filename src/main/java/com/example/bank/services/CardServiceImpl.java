@@ -1,5 +1,6 @@
 package com.example.bank.services;
 
+import com.example.bank.dto.IssueCardDTO;
 import com.example.bank.model.CardEntity;
 import com.example.bank.model.PaymentSystem;
 import com.example.bank.model.Status;
@@ -7,6 +8,11 @@ import com.example.bank.repositories.CardRepository;
 import com.example.bank.services.exception.CardNotFoundException;
 import com.example.bank.services.exception.DAOException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -27,45 +33,72 @@ public class CardServiceImpl implements CardService {
         return cardRepository.findAll();
     }
 
+
     @Override
+    @Cacheable(value = "CardServiceImpl::findByCardNumber", key = "#cardNumber")
     public CardEntity findByCardNumber(String cardNumber) {
-        return cardRepository.findByCardNumber(cardNumber).orElseThrow(() ->new DAOException(
+        return cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new DAOException(
                 new CardNotFoundException(String.format("Card with %s card number does`t exist", cardNumber))));
     }
 
     @Override
-    public CardEntity findById(Long id){
-        return cardRepository.findById(id).orElseThrow(() ->new DAOException(
+    @Cacheable(value = "CardServiceImpl::findById", key = "#id")
+    public CardEntity findById(Long id) {
+        System.out.println("CardServiceImpl::findById "+id);
+        return cardRepository.findById(id).orElseThrow(() -> new DAOException(
                 new CardNotFoundException(String.format("Card with %s id does`t exist", id))));
     }
 
     @Override
-    public void activateCard(Long id) {
+    @Caching(put = {
+            @CachePut(value = "CardServiceImpl::findById", key = "#id"),
+            @CachePut(value = "CardServiceImpl::findByCardNumber", key = "#result.cardNumber"),
+    })
+    public CardEntity activateCard(Long id) {
         CardEntity cardEntity = findById(id);
         cardEntity.setStatus(Status.ACTIVE);
-        cardRepository.save(cardEntity);
+        return cardRepository.save(cardEntity);
     }
 
     @Override
-    public void deactivateCard(Long id) {
+    @Caching(put = {
+            @CachePut(value = "CardServiceImpl::findById", key = "#id"),
+            @CachePut(value = "CardServiceImpl::findByCardNumber", key = "#result.cardNumber"),
+    })
+    public CardEntity deactivateCard(Long id) {
         CardEntity cardEntity = findById(id);
         cardEntity.setStatus(Status.BANNED);
-        cardRepository.save(cardEntity);
+        return cardRepository.save(cardEntity);
     }
 
     @Override
-    public CardEntity createNewCard(String email, CardEntity card) {
-        String cardNumber=generateCardNumberBeforeLuhnAlgorithm(card.getPaymentSystem());
-        card.setCardNumber(luhnAlgorithmForGenerateLastDigit(cardNumber));
-        card.setDate(new Date(new java.util.Date().getTime()));
-        card.setCvv(String.valueOf(new Random().nextInt(999 - 100 + 1) + 100));
-        card.setUserEntity(userService.findByEmail(email));
-        card.setStatus(Status.UNDER_CONSIDERATION);
-        cardRepository.save(card);
-        return card;
+    @Caching(put = {
+            @CachePut(value = "CardServiceImpl::findById",key = "#result.id",unless ="#result.id==null" ),
+            @CachePut(value = "CardServiceImpl::findByCardNumber",key ="#result.cardNumber",unless ="#result.cardNumber==null")
+    })
+    public CardEntity createNewCard(String email, IssueCardDTO issueCardDTO) {
+        CardEntity newCard = CardEntity.builder()
+                .cardNumber(generateCardNumberLuhnAlgorithm(issueCardDTO.paymentSystem()))
+                .date(new Date(new java.util.Date().getTime()))
+                .cvv(String.valueOf(new Random().nextInt(999 - 100 + 1) + 100))
+                .status(Status.UNDER_CONSIDERATION)
+                .userEntity(userService.findByEmail(email))
+                .paymentSystem(issueCardDTO.paymentSystem())
+                .cardType(issueCardDTO.cardType())
+                .balance(0).build();
+        return cardRepository.save(newCard);
     }
 
-    private String generateCardNumberBeforeLuhnAlgorithm(PaymentSystem paymentSystem){
+    @Override
+    @Caching(evict = {
+            @CacheEvict(value = "CardServiceImpl::findById",key = "#card.id"),
+            @CacheEvict(value = "CardServiceImpl::findByCardNumber",key ="#card.cardNumber")
+    })
+    public void delete(CardEntity card) {
+        cardRepository.delete(card);
+    }
+
+    private String generateCardNumberLuhnAlgorithm(PaymentSystem paymentSystem) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(paymentSystem.getCode());
         stringBuilder.append(BIN);
@@ -73,10 +106,10 @@ public class CardServiceImpl implements CardService {
         Long cardId = Long.parseLong(lastCardNumberInDB.substring(6, 15)) + 1;
         stringBuilder.append(cardId);
         stringBuilder.append(0);
-        return stringBuilder.toString();
+        return luhnAlgorithm(stringBuilder.toString());
     }
 
-    private String luhnAlgorithmForGenerateLastDigit(String cardNumber) {
+    private String luhnAlgorithm(String cardNumber) {
         int sum = 0;
         int nDigits = cardNumber.length();
         int parity = nDigits % 2;
@@ -109,8 +142,6 @@ public class CardServiceImpl implements CardService {
             }
             sum += digit;
         }
-        if (sum % 10 == 0) return true;
-
-        return false;
+        return sum % 10 == 0;
     }
 }
