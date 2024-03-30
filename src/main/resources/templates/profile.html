@@ -5,23 +5,23 @@
 <head>
     <th:block th:insert="~{fragments/bootstrap::bootstrap-head}"/>
     <th:block th:insert="~{fragments/ajax::ajax}"/>
-    <script type="text/javascript" th:src="@{/js/profile.js}"></script>
-    <link href="/css/autocomplete.css" type="text/css" rel="stylesheet"/>
-    <title th:text="#{profile.title}">Profile</title>
+    <script sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')" type="text/javascript"
+            th:src="@{/js/profile.js}"></script>
+    <link sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')" href="/css/autocomplete.css" type="text/css"
+          rel="stylesheet"/>
+    <title th:text="#{profile.title}"></title>
 </head>
 <body>
 <section class="bg-light vh-100">
-    <!--Navbar-->
     <th:block th:insert="~{fragments/navabar::navbar}"/>
     <div class="container py-4 " th:object="${profile}">
-        <div class="row">
+        <div class="row" sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')">
             <div id="emailAlert" class="alert alert-info alert-dismissible" role="alert">
-                <div th:utext="#{profile.avatar.alert.confirm.email}" id="selectedAssetsDetails">null</div>
+                <div th:utext="#{profile.avatar.alert.confirm.email}" id="selectedAssetsDetails"></div>
                 <button type="button" class="btn-close" aria-label="Close"></button>
             </div>
         </div>
         <div class="row">
-            <!--Avatar-->
             <div class="col-md-4 pt-2">
                 <div class="card bg-dark mb-2 px-5" style="border-radius: 1rem">
                     <div class="card-body text-center">
@@ -29,37 +29,62 @@
                              alt="avatar"
                              class="rounded-circle img-fluid">
                         <h6 class="my-1 text-white" th:text="*{userEntity.email}">null</h6>
-                        <form id="form-confirm-email" th:action="@{/confirm-email}" method="post">
-                            <div sec:authorize="hasAuthority('CONFIRM_EMAIL')">
+                        <div sec:authorize="hasAuthority('CONFIRM_EMAIL')">
+                            <form id="form-confirm-email" th:action="@{/confirm-email}" method="post">
                                 <button id="btn-confirm-email" class="btn btn-sm btn-outline-warning btn-shadow-none"
                                         type="submit"
                                         th:utext="#{profile.avatar.button.confirm.email}">
-                                    Confirm email
                                 </button>
                                 <h6 id="countdown-timer" class="text-white-50 mt-1"></h6>
-                            </div>
-                        </form>
-
-                        <div sec:authorize="!hasAuthority('CONFIRM_EMAIL')">
+                            </form>
+                        </div>
+                        <div sec:authorize="hasRole('USER')">
                             <button class="btn btn-sm  btn-outline-success btn-shadow-none border-0"
                                     th:utext="#{profile.avatar.button.confirmed.email}" disabled>
-                                Confirmed email
                             </button>
+                        </div>
+                        <div sec:authorize="hasAuthority('USER_MANAGEMENT')">
+                            <form th:action="@{/admin/profile/{id}/alter-role(id=*{userEntity.id})}" method="post">
+                                <select class="form-select-sm col-12 mb-2" th:field="*{userEntity.role}">
+                                    <option th:text="*{userEntity.role}" th:value="*{userEntity.role}"
+                                            selected></option>
+                                    <option th:each="role:${T(com.example.bank.model.Role).values()}"
+                                            th:unless="${role.equals(profile.userEntity.role)}"
+                                            th:value="${role}"
+                                            th:text="${role}">
+                                    </option>
+                                </select>
+                                <button class="btn btn-sm btn-outline-warning btn-shadow-none col-12 mb-2"
+                                        type="submit" th:utext="#{profile.avatar.button.alter-role}"></button>
+                            </form>
+                            <form th:action="@{/admin/profile/{id}/block-user(id=*{userEntity.id})}"
+                                  th:if="${#strings.equals('ACTIVE',(profile.userEntity.userStatus.name))}"
+                                  method="post">
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger btn-shadow-none col-12"
+                                        th:utext="#{profile.avatar.button.block-user}"></button>
+                            </form>
+                            <form th:action="@{/admin/profile/{id}/activate-user(id=*{userEntity.id})}" ]
+                                  th:if="${#strings.equals('NOT_ACTIVE',(profile.userEntity.userStatus.name))}"
+                                  method="post">
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-success btn-shadow-none col-12"
+                                        th:utext="#{profile.avatar.button.activate-user}"></button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--Form-->
             <div class="col-md-8 pt-2">
                 <div class="card bg-dark mb-2" style="border-radius: 1rem">
                     <div class="card-body text-white">
                         <form id="personal-details-form" th:action="@{/profile}" method="post">
                             <div class="text-center mt-1">
-                                <p class="text-bald" th:utext="#{profile.form.title}">Personal Details</p>
+                                <p class="text-bald" th:utext="#{profile.form.title}"></p>
                             </div>
                             <div class="form-group row mt-1">
                                 <label for="inputName" class="col-sm-3 col-form-label ps-4"
-                                       th:utext="#{profile.form.name}">Name :</label>
+                                       th:utext="#{profile.form.name}"></label>
                                 <div class="col-sm-8">
                                     <input type="text"
                                            th:field="*{name}"
@@ -70,7 +95,7 @@
                             <hr class="my-1">
                             <div class="form-group row mt-1">
                                 <label for="inputSurname" class="col-sm-3 col-form-label ps-4"
-                                       th:utext="#{profile.form.surname}">Surname :</label>
+                                       th:utext="#{profile.form.surname}"></label>
                                 <div class="col-sm-9">
                                     <input type="text"
                                            th:field="*{surname}"
@@ -81,7 +106,7 @@
                             <hr class="my-1">
                             <div class="form-group row mt-1">
                                 <label for="inputBirthdate" class="col-sm-3 col-form-label ps-4"
-                                       th:utext="#{profile.form.birthdate}">Birthdate :</label>
+                                       th:utext="#{profile.form.birthdate}"></label>
                                 <div class="col-sm-9">
                                     <input type="date"
                                            th:field="*{{birthdate}}"
@@ -92,7 +117,7 @@
                             <hr class="my-1">
                             <div class="form-group row mt-1">
                                 <label for="inputAddress" class="col-sm-3 col-form-label ps-4"
-                                       th:utext="#{profile.form.address}">Address :</label>
+                                       th:utext="#{profile.form.address}"></label>
                                 <div class="col-sm-9">
                                     <input type="text"
                                            th:field="*{address}"
@@ -103,7 +128,7 @@
                             <hr class="my-1">
                             <div class="form-group row mt-1">
                                 <label for="inputPhoneNumber" class="col-sm-3 col-form-label ps-4"
-                                       th:utext="#{profile.form.phone-number}">Phone number :</label>
+                                       th:utext="#{profile.form.phone-number}"></label>
                                 <div class="col-sm-9">
                                     <input type="tel"
                                            pattern=""
@@ -114,21 +139,18 @@
                                 <input id="inputId" type="hidden" th:field="*{id}">
                                 <input id="inputUserEntity" type="hidden" th:field="*{userEntity}">
                             </div>
-                            <hr class="mt-1 mb-4">
+                            <hr sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')" class="mt-1 mb-4">
                             <div sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')">
                                 <div class="form-group row d-flex justify-content-end ">
                                     <div class="col-sm-2 mx-2">
                                         <button id="saveChangesButton" type="submit"
                                                 class="btn btn-outline-warning btn-md "
-                                                th:utext="#{profile.form.button.save}" disabled>
-                                            Save
-                                        </button>
+                                                th:utext="#{profile.form.button.save}" disabled></button>
                                     </div>
                                     <div class="col-sm-2 mx-2 ">
                                         <button id="editButton" type="button"
                                                 class="btn btn-outline-success btn-md"
-                                                th:utext="#{profile.form.button.edit}">Edit
-                                        </button>
+                                                th:utext="#{profile.form.button.edit}"></button>
                                     </div>
                                 </div>
                             </div>

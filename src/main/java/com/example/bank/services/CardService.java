@@ -2,13 +2,14 @@ package com.example.bank.services;
 
 import com.example.bank.dto.IssueCardDTO;
 import com.example.bank.model.CardEntity;
+import com.example.bank.model.CardStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Transactional(readOnly = true)
 public interface CardService {
     List<CardEntity> findAll();
-
+    List<CardEntity> findAllByCardStatusOrderByDateAsc(CardStatus status);
     CardEntity findByCardNumber(String cardNumber);
 
     CardEntity findById(Long id);
@@ -23,4 +24,5 @@ public interface CardService {
     @Transactional
     void delete(CardEntity card);
     boolean checkCorrectnessCardNumber(String cardNumber);
+
 }

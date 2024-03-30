@@ -20,6 +20,9 @@
                             <li sec:authorize="hasAuthority('ISSUE_CARD')">
                                 <a class="dropdown-item" th:href="@{/card-issue}" th:utext="#{navbar.card.issue-card}">Issue card</a>
                             </li>
+                            <li sec:authorize="hasAuthority('CARD_MANAGEMENT')">
+                                <a class="dropdown-item" th:href="@{/admin/card-management}" th:utext="#{navbar.card.issuance-requests}">Issuance requests</a>
+                            </li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
                         </ul>
                     </li>

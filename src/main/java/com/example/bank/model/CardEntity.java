@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
@@ -37,7 +36,7 @@ public class CardEntity implements Serializable{
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private CardStatus cardStatus;
 
     @Column(name = "payment_system")
     @Enumerated(EnumType.STRING)

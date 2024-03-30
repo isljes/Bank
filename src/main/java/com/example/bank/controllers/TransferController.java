@@ -44,7 +44,7 @@ public class TransferController {
     }
 
 
-    @PostMapping("/by-card-number")
+    @GetMapping("/by-card-number/confirm")
     @PreAuthorize("hasAuthority('MONEY_TRANSFER')")
     public String validateAndGetConfirmPage(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO,
                                             BindingResult bindingResult,
@@ -61,8 +61,7 @@ public class TransferController {
 
     @PostMapping("/by-card-number/confirm")
     @PreAuthorize("hasAuthority('MONEY_TRANSFER')")
-    public String transferMoney(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO,
-                                RedirectAttributes redirectAttributes) {
+    public String transferMoney(@ModelAttribute("transferMoneyDTO") TransferMoneyDTO transferMoneyDTO) {
         String from = transferMoneyDTO.getCardEntity().getCardNumber();
         String to = transferMoneyDTO.getCardNumber();
         long amount = transferMoneyDTO.getAmount();

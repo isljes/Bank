@@ -2,13 +2,13 @@ package com.example.bank.services;
 
 import com.example.bank.dto.IssueCardDTO;
 import com.example.bank.model.CardEntity;
+import com.example.bank.model.CardStatus;
 import com.example.bank.model.PaymentSystem;
-import com.example.bank.model.Status;
+import com.example.bank.model.UserStatus;
 import com.example.bank.repositories.CardRepository;
 import com.example.bank.services.exception.CardNotFoundException;
 import com.example.bank.services.exception.DAOException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,6 +31,11 @@ public class CardServiceImpl implements CardService {
     @Override
     public List<CardEntity> findAll() {
         return cardRepository.findAll();
+    }
+
+    @Override
+    public List<CardEntity> findAllByCardStatusOrderByDateAsc(CardStatus cardStatus) {
+        return cardRepository.findAllByCardStatusOrderByDateAsc(cardStatus);
     }
 
 
@@ -56,7 +61,7 @@ public class CardServiceImpl implements CardService {
     })
     public CardEntity activateCard(Long id) {
         CardEntity cardEntity = findById(id);
-        cardEntity.setStatus(Status.ACTIVE);
+        cardEntity.setCardStatus(CardStatus.ACTIVE);
         return cardRepository.save(cardEntity);
     }
 
@@ -65,9 +70,10 @@ public class CardServiceImpl implements CardService {
             @CachePut(value = "CardServiceImpl::findById", key = "#id"),
             @CachePut(value = "CardServiceImpl::findByCardNumber", key = "#result.cardNumber"),
     })
+
     public CardEntity deactivateCard(Long id) {
         CardEntity cardEntity = findById(id);
-        cardEntity.setStatus(Status.BANNED);
+        cardEntity.setCardStatus(CardStatus.BANNED);
         return cardRepository.save(cardEntity);
     }
 
@@ -81,7 +87,7 @@ public class CardServiceImpl implements CardService {
                 .cardNumber(generateCardNumberLuhnAlgorithm(issueCardDTO.paymentSystem()))
                 .date(new Date(new java.util.Date().getTime()))
                 .cvv(String.valueOf(new Random().nextInt(999 - 100 + 1) + 100))
-                .status(Status.UNDER_CONSIDERATION)
+                .cardStatus(CardStatus.UNDER_CONSIDERATION)
                 .userEntity(userService.findByEmail(email))
                 .paymentSystem(issueCardDTO.paymentSystem())
                 .cardType(issueCardDTO.cardType())

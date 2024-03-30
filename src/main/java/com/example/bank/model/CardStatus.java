@@ -1,8 +1,7 @@
 package com.example.bank.model;
 
-public enum Status {
+public enum CardStatus {
     ACTIVE,
-    NOT_ACTIVE,
     BANNED,
     UNDER_CONSIDERATION;
 }

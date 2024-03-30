@@ -52,7 +52,7 @@ public class ForgotPasswordController {
         return "response";
     }
 
-    @GetMapping("forgot-password/reset-password")
+    @GetMapping("/forgot-password/reset-password")
     public String checkValidConfirmCode(@RequestParam(value = "email") String email,
                                         @RequestParam(value = "confirmation-code") String confirmationCode,
                                         Model model){
@@ -66,7 +66,7 @@ public class ForgotPasswordController {
         return "reset-password";
     }
 
-    @PostMapping("forgot-password/reset-password")
+    @PostMapping("/forgot-password/reset-password")
     public String resetPassword(@ModelAttribute("user") @Valid UserEntity userEntity,
                                 BindingResult bindingResult,
                                 Model model){

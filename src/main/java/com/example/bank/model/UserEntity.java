@@ -41,7 +41,7 @@ public class UserEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status;
+    private UserStatus userStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")

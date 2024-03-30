@@ -1,6 +1,6 @@
 package com.example.bank.security;
 
-import com.example.bank.model.Status;
+import com.example.bank.model.UserStatus;
 import com.example.bank.model.UserEntity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,10 +58,10 @@ public class SecurityUser implements UserDetails {
                 .username(userEntity.getEmail())
                 .password(userEntity.getPassword())
                 .authorities(userEntity.getRole().getAuthorities())
-                .disabled(userEntity.getStatus().equals(Status.NOT_ACTIVE))
-                .accountExpired(userEntity.getStatus().equals(Status.NOT_ACTIVE))
-                .credentialsExpired(userEntity.getStatus().equals(Status.NOT_ACTIVE))
-                .accountLocked(userEntity.getStatus().equals(Status.NOT_ACTIVE))
+                .disabled(userEntity.getUserStatus().equals(UserStatus.NOT_ACTIVE))
+                .accountExpired(userEntity.getUserStatus().equals(UserStatus.NOT_ACTIVE))
+                .credentialsExpired(userEntity.getUserStatus().equals(UserStatus.NOT_ACTIVE))
+                .accountLocked(userEntity.getUserStatus().equals(UserStatus.NOT_ACTIVE))
                 .build();
     }
 }

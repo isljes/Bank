@@ -19,7 +19,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <h3 class="text-white mb-3" th:utext="#{transfer.form.title}">Transfer</h3>
                         </div>
-                        <form th:action="@{by-card-number}" method="post" th:object="${transferMoneyDTO}">
+                        <form th:action="@{by-card-number/confirm}" method="get" th:object="${transferMoneyDTO}">
                             <div class="form-floating mb-3">
                                 <div class="mb-3">
                                     <h6><label for="card-number-input" class="form-label"
