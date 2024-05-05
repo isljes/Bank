@@ -1,7 +1,7 @@
 package com.example.bank.exceptionhandling;
 
-import com.example.bank.services.exception.DAOException;
-import com.example.bank.services.exception.ServiceException;
+import com.example.bank.service.exception.DAOException;
+import com.example.bank.service.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,7 +18,7 @@ public class ExceptionController {
         redirectAttributes.addFlashAttribute("UIExceptionDTO",
                 new UIExceptionDTO(HttpStatus.NOT_FOUND,daoException.getMessage()));
         log.warn("DAOException -> {}", daoException.getMessage());
-        return "redirect:/welcome";
+        return "redirect:/";
     }
 
     @ExceptionHandler(ServiceException.class)
@@ -27,14 +27,14 @@ public class ExceptionController {
         redirectAttributes.addFlashAttribute("UIExceptionDTO",
                 new UIExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR,"Something went wrong"));
         log.warn("ServiceException -> {}",serviceException.getMessage());
-        return "redirect:/welcome";
+        return "redirect:/";
     }
 
-   /* @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public String globalException(Exception exception,RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("UIExceptionDTO",
                 new UIExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR,"Something went wrong"));
         log.warn("Exception->{}",exception.getMessage());
-        return "redirect:/welcome";
-    }*/
+        return "redirect:/";
+    }
 }

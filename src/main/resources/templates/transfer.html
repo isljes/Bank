@@ -26,13 +26,13 @@
                                                th:utext="#{transfer.form.label.card-number}">Enter card number</label></h6>
                                     <input type="text" class="form-control bg-dark shadow-none text-white"
                                            id="card-number-input" placeholder="1234 1234 1234 1234"
-                                           th:field="*{cardNumber}"
+                                           th:field="*{toCardNumber}"
                                            pattern="([0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4})|([0-9]{16})"/>
                                 </div>
                                 <div class="text-danger mb-1">
                                     <p>
                                         <th:block th:if="${#fields.hasErrors()}">
-                                            <div th:errorclass="invalid-input" th:errors="*{cardNumber}"></div>
+                                            <div th:errorclass="invalid-input" th:errors="*{toCardNumber}"></div>
                                         </th:block>
                                     </p>
                                 </div>
@@ -43,7 +43,7 @@
                                         <input id="amount-input" type="text"
                                                class="form-control bg-dark shadow-none text-white"
                                                th:field="*{amount}"/>
-                                        <span class="input-group-text">$</span>
+                                        <span class="input-group-text">&#8381</span>
                                     </div>
                                 </div>
                                 <div class="text-danger mb-1">
@@ -56,7 +56,7 @@
                                 <div class="mb-3">
                                     <h6 th:utext="#{transfer.form.select.card}">Select card</h6>
                                     <div class="input-group">
-                                        <select class="form-select bg-dark text-white" th:field="*{cardEntity}">
+                                        <select class="form-select bg-dark text-white" th:field="*{fromCardEntity}">
                                             <option th:each="currcard:${selectCard}" th:value="${currcard.id}"
                                                     th:utext="
                                                 ${currcard.paymentSystem+' '+currcard.cardNumber.substring(12)}">
@@ -67,7 +67,7 @@
                                 <div class="text-danger mb-1">
                                     <p>
                                         <th:block th:if="${#fields.hasErrors()}">
-                                            <div th:errorclass="invalid-input" th:errors="*{cardEntity}"></div>
+                                            <div th:errorclass="invalid-input" th:errors="*{fromCardEntity}"></div>
                                         </th:block>
                                     </p>
                                 </div>

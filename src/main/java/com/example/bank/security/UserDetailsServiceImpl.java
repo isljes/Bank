@@ -1,9 +1,9 @@
 
 package com.example.bank.security;
 
-import com.example.bank.services.exception.DAOException;
+import com.example.bank.service.exception.DAOException;
 import com.example.bank.model.UserEntity;
-import com.example.bank.repositories.UserRepository;
+import com.example.bank.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

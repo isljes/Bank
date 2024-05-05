@@ -14,7 +14,7 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="com.example.bank" level="FATAL" additivity="false">
+        <Logger name="com.example.bank" level="INFO" additivity="false">
             <AppenderRef ref="LogToConsole"/>
             <AppenderRef ref="LogToFile"/>
         </Logger>

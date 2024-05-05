@@ -11,7 +11,7 @@ public record CurrencyRateDTO (
         String timeStamp,
         @JsonProperty("Valute")
         Map<String,Currency> currencies) implements Serializable {
-        public record Currency(
+        public record Currency (
                 @JsonProperty("CharCode")
                 String charCode,
                 @JsonProperty("Name")
@@ -21,5 +21,5 @@ public record CurrencyRateDTO (
                 @JsonProperty("Value")
                 double value,
                 @JsonProperty("Previous")
-                double previous) {}
+                double previous) implements Serializable {}
 }

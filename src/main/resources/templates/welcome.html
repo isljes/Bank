@@ -10,18 +10,19 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css"
           integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q=="
           crossorigin="anonymous"/>
+    <script type="text/javascript" th:src="@{/js/welcome.js}"></script>
     <title th:utext="#{welcome.title}"></title>
 </head>
 <body>
 <section class="bg-light vh-100">
     <th:block th:insert="~{fragments/navabar :: navbar}"/>
     <div class="container mt-1 py-1 ">
-        <div class="row" th:if="${UIExceptionDTO}!=null">
+        <div class="row"  th:if="${UIExceptionDTO}!=null">
             <div id="emailAlert" class="alert alert-danger alert-dismissible" role="alert"
                  th:object="${UIExceptionDTO}">
                 <div th:utext="*{status}">null</div>
                 <div th:utext="*{message}">null</div>
-                <button type="button" class="btn-close" aria-label="Close"></button>
+                <button type="button" class="btn-close" aria-label="Close" ></button>
             </div>
         </div>
         <div class="row">
@@ -61,7 +62,7 @@
             <div class="col-md-7 pt-1">
                 <div class="card bg-dark mb-2 px-5" style="border-radius: 1rem">
                     <div class="card-body">
-                        <form th:action="@{/welcome/update}" th:object="${selectedCurrenciesDTO}" method="post">
+                        <form th:action="@{/update-currency}" th:object="${selectedCurrenciesDTO}" method="post">
                             <div class="row mb-3">
                                 <h4 class="col-6 text-light" th:utext="#{welcome.currency-rates.title}"></h4>
                                 <select class="selectpicker col-5 " multiple th:field="*{currencies}">

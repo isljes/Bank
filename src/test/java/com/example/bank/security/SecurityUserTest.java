@@ -1,7 +1,7 @@
 package com.example.bank.security;
 
 import com.example.bank.model.Role;
-import com.example.bank.model.Status;
+import com.example.bank.model.UserStatus;
 import com.example.bank.model.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +13,13 @@ public class SecurityUserTest {
 
     @Test
     public void fromUserTest_returnedUserFromSpringSecurity(){
-        UserEntity userEntity=new UserEntity();
+        final var userEntity=new UserEntity();
         userEntity.setEmail("some_email");
         userEntity.setPassword("some_password");
         userEntity.setRole(Role.USER);
-        userEntity.setStatus(Status.ACTIVE);
+        userEntity.setUserStatus(UserStatus.ACTIVE);
 
-        UserDetails userDetails=SecurityUser.fromUser(userEntity);
+        final UserDetails userDetails=SecurityUser.fromUser(userEntity);
 
         assertEquals(userEntity.getEmail(),userDetails.getUsername(),"Emails don't match");
         assertEquals(userEntity.getPassword(),userDetails.getPassword(),"Passwords don't match");

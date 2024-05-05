@@ -13,7 +13,7 @@
             <div class="col-9">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body p-4">
-                        <form th:object="${transferMoneyDTO}" th:action="@{by-card-number/confirm}" method="post">
+                        <form th:object="${transferMoneyDTO}" th:action="@{confirm}" method="post">
                             <div class="row mb-3">
                                 <div class="d-flex align-items-center justify-content-center">
                                     <h4 class="text-white mb-4" th:utext="#{confirm-transfer.form.title}">Confirm
@@ -26,7 +26,7 @@
                                         Card: </h5>
                                 </div>
                                 <div class="col-8">
-                                    <h5   th:text="*{cardNumber}"></h5>
+                                    <h5   th:text="*{toCardNumber}"></h5>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -51,7 +51,7 @@
                                     <h5 class="text-white mb-3" th:utext="#{confirm-transfer.form.amount}">Amount: </h5>
                                 </div>
                                 <div class="col-8">
-                                    <h5 th:text="*{amount+'$'}"></h5>
+                                    <h5 th:text="*{amount+' &#8381'}"></h5>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -60,19 +60,19 @@
                                         Card: </h5>
                                 </div>
                                 <div class="col-4">
-                                    <h5 th:text="*{cardEntity.cardNumber}"></h5>
+                                    <h5 th:text="*{fromCardEntity.cardNumber}"></h5>
                                 </div>
                                 <div class="col-2">
-                                    <h5 th:text="*{cardEntity.paymentSystem}"></h5>
+                                    <h5 th:text="*{fromCardEntity.paymentSystem}"></h5>
                                 </div>
                                 <div class="col-2">
-                                    <h5 th:text="*{cardEntity.balance+'$'}"></h5>
+                                    <h5 th:text="*{fromCardEntity.balance+' &#8381'}"></h5>
                                 </div>
                             </div>
 
-                            <input type="hidden" th:field="*{cardNumber}"/>
+                            <input type="hidden" th:field="*{toCardNumber}"/>
                             <input type="hidden" th:field="*{amount}"/>
-                            <input type="hidden" th:field="*{cardEntity}">
+                            <input type="hidden" th:field="*{fromCardEntity}">
                             <div class="d-flex justify-content-end">
                                 <button class="btn btn-outline-success" type="submit"
                                         th:utext="#{confirm-transfer.form.submit}">Confirm

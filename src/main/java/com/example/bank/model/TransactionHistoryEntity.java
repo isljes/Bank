@@ -19,7 +19,7 @@ public class TransactionHistoryEntity implements Serializable {
     private Timestamp timestamp;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "card_id")
     @ToString.Exclude
     private CardEntity card;

@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Component
 public class LoggingAspect {
 
-    @Pointcut("within(com.example.bank.services.*))")
+    @Pointcut("within(com.example.bank.service.*))")
     public void anyMethodFromServices(){};
 
     @Pointcut("@annotation(com.example.bank.logging.ManualLogging)")

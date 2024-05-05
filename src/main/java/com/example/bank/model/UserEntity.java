@@ -3,6 +3,8 @@ package com.example.bank.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.Hibernate;
+import org.hibernate.engine.internal.Cascade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @ToString
 public class UserEntity implements Serializable {
     @Id
@@ -47,11 +51,11 @@ public class UserEntity implements Serializable {
     @Column(name = "role")
     private Role role;
 
-    @OneToMany(mappedBy = "userEntity",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<CardEntity> cardEntities;
 
-    @OneToOne(mappedBy = "userEntity")
+    @OneToOne(mappedBy = "userEntity",cascade = CascadeType.ALL)
     @ToString.Exclude
     private PersonalDetailsEntity personalDetailsEntity;
 

@@ -28,7 +28,7 @@ public class CardEntity implements Serializable{
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private Date expiration;
 
     @Column(name = "cvv")
     private String cvv;
@@ -51,12 +51,12 @@ public class CardEntity implements Serializable{
     @Column(name = "balance")
     private long balance;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "card",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "card",cascade =CascadeType.ALL )
     @ToString.Exclude
     private List<TransactionHistoryEntity> transactionHistoryEntity;
 
