@@ -14,12 +14,12 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="com.example.bank" level="INFO" additivity="false">
+        <Logger name="com.example.bank" level="DEBUG" additivity="false">
             <AppenderRef ref="LogToConsole"/>
             <AppenderRef ref="LogToFile"/>
         </Logger>
 
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>

@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService {
     })
     public UserEntity alterRole(UserEntity user, Role role) {
         user.setRole(role);
+        userRepository.save(user);
         sessionService.updateUserRole(user.getEmail(), role);
         return user;
     }

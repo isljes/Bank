@@ -21,8 +21,7 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
     private final UserService userService;
-
-    private static final String BIN = "82390";
+    private final String BIN = "82390";
 
     @Override
     public List<CardEntity> findAll() {

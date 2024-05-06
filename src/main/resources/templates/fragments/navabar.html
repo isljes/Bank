@@ -60,7 +60,7 @@
                         </svg>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" th:href="@{/profile}" th:utext="#{navbar.profile}">Profile</a></li>
+                        <li  sec:authorize="hasAuthority('VIEW_ONLY_HIS_PROFILE')"><a class="dropdown-item" th:href="@{/profile}" th:utext="#{navbar.profile}">Profile</a></li>
                         <li class="d-flex justify-content-end me-2 mt-4">
                             <form th:action="@{/logout}" method="post">
                                 <button class="btn dropdown-btn  btn-danger"

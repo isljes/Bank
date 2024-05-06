@@ -15,23 +15,6 @@ services:
       - POSTGRES_USER=kenik
     volumes:
       - ./src/main/resources/init.sql://docker-entrypoint-initdb.d/init.sql
-      - pg_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-
-  app:
-    build:
-      dockerfile: Dockerfile
-      args:
-        JAR_FILE: target/Bank-0.0.1-SNAPSHOT.jar
-    ports:
-      - "8080:8080"
-    depends_on:
-      - redis
-      - postgres
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/bank
-      - SPRING_DATA_REDIS_HOST=redis
-volumes:
-  pg_data:
+      - "43321:5432"
 
