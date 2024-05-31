@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS transaction_history(
 );
 
 INSERT INTO users(email,password,role)
-VALUES ('kenik000000@gmail.com',
-        '$2a$12$qZBoy.k1VRk1P2S0OcakJ.gXy7xCzwAQ5hmDvj/4GCXX.VyvlM4xy',
+VALUES ('admin@gmail.com',
+        '$2a$12$j0b9JIh/hRvupv/0ruukU.2p1vg.HSqBpiBQELGvfJmXxQU/Q6Xb6',
         'ADMIN'),
 
        ('user@gmail.com',
