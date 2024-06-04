@@ -11,15 +11,10 @@ services:
     image: postgres:latest
     environment:
       - POSTGRES_DB=bank
-<<<<<<< HEAD
       - POSTGRES_PASSWORD=user
       - POSTGRES_USER=user
     volumes:
       - pg_data:/var/lib/postgresql/data
-=======
-      - POSTGRES_PASSWORD=user
-      - POSTGRES_USER=user
->>>>>>> develop
     ports:
       - "5432:5432"
 
