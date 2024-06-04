@@ -40,9 +40,9 @@
   * User management
 
 ### Stack
-* **Backend**: Java 17`, Spring(Boot, MVC, Data, Security, AOP);
+* **Backend**: Java 17, Spring(Boot, MVC, Data, Security, AOP);
 * **SQL**: PostgreSQL;
 * **NoSQL**: Redis;
 * **Frontend**: Thymeleaf, Bootstrap, JS(jQuery, Ajax)
-* **Tools**: Maven, Docker, Docker Compose, Git;
+* **Tools**: Maven, Docker, Docker Compose, Git, Liquibase;
 

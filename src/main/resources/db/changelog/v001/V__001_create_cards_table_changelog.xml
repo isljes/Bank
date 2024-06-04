@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0.0.1-3" author="Kenik Alexandr">
+        <preConditions>
+            <not>
+                <tableExists tableName="cards"/>
+            </not>
+        </preConditions>
+        <createTable tableName="cards">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="card_number" type="varchar(16)">
+                <constraints nullable="true" unique="true"/>
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="cvv" type="varchar(4)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="varchar(30)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="payment_system" type="varchar(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="card_type" type="varchar(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="balance" type="bigint"/>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="cards_user_id_fk" referencedTableName="users" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="0.0.1-4" author="Kenik Alexandr">
+        <preConditions>
+            <tableIsEmpty tableName="cards"/>
+        </preConditions>
+        <loadData tableName="cards" file="db/data/cards_data.csv"/>
+    </changeSet>
+</databaseChangeLog>
