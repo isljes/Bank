@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0.0.1-1" author="Kenik Alexandr">
+        <preConditions>
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+        <createTable tableName="users">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar(60)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(300)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="status" type="varchar(45)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(45)" defaultValue="UNCONFIRMED_USER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="confirmation_code" type="varchar(100)">
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="0.0.1-2" author="Kenik Alexander">
+        <preConditions>
+            <tableIsEmpty tableName="users"/>
+        </preConditions>
+        <loadData tableName="users" file="db/data/users_date.csv"/>
+    </changeSet>
+</databaseChangeLog>

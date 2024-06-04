@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0.0.1-7" author="Kenik Alexandr">
+        <preConditions>
+            <not>
+                <tableExists tableName="transaction_history"/>
+            </not>
+        </preConditions>
+        <createTable tableName="transaction_history">
+            <column name="card_id" type="bigint">
+                <constraints foreignKeyName="transaction_history_card_id_fk"
+                             referencedTableName="cards" referencedColumnNames="id"
+                             primaryKey="true"
+                             nullable="false"/>
+            </column>
+            <column name="amount" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datetime" type="timestamp">
+                <constraints nullable="false"
+                             primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

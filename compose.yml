@@ -4,17 +4,15 @@ services:
     ports:
       - "6379:6379"
     environment:
-      - REDIS_PASSWORD=alex230302
+      - REDIS_PASSWORD=user
 
   postgres:
     container_name: db
     image: postgres:latest
     environment:
       - POSTGRES_DB=bank
-      - POSTGRES_PASSWORD=alex230302
-      - POSTGRES_USER=kenik
-    volumes:
-      - ./src/main/resources/init.sql://docker-entrypoint-initdb.d/init.sql
+      - POSTGRES_PASSWORD=user
+      - POSTGRES_USER=user
     ports:
       - "43321:5432"
 

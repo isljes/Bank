@@ -1,0 +1,3 @@
+email,password,role
+admin@gmail.com,$2a$12$j0b9JIh/hRvupv/0ruukU.2p1vg.HSqBpiBQELGvfJmXxQU/Q6Xb6,ADMIN
+user@gmail.com,$2a$12$PMUsgr.6NmnK98jyKrTphO/LqGQsE7lfBeEIbT.C02QkbU0kB6ZDG,USER

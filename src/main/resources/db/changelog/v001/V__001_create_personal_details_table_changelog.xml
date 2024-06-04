@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0.0.1-5" author="Kenik Alexandr">
+        <preConditions>
+            <not>
+                <tableExists tableName="personal_details"/>
+            </not>
+        </preConditions>
+        <createTable tableName="personal_details">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(80)"/>
+            <column name="surname" type="varchar(80)"/>
+            <column name="birth_date" type="date"/>
+            <column name="address" type="varchar(150)"/>
+            <column name="phone_number" type="varchar(20)"/>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="personal_details_user_id_fk" referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="0.0.1-6" author="Kenik Alexandr">
+        <preConditions>
+            <tableIsEmpty tableName="personal_details"/>
+        </preConditions>
+        <loadData tableName="personal_details" file="db/data/personal_details.csv"/>
+    </changeSet>
+
+</databaseChangeLog>
