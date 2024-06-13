@@ -1,33 +1,21 @@
 package com.example.bank.controller;
 
-import com.example.bank.configuration.SecurityConfig;
-import com.example.bank.dto.TransferMoneyDTO;
+import com.example.bank.dto.TransferMoneyDto;
 import com.example.bank.model.*;
-import com.example.bank.security.UserDetailsServiceImpl;
 import com.example.bank.service.CardService;
 import com.example.bank.service.TransferMoneyService;
 import com.example.bank.service.UserService;
 import com.example.bank.validator.TransferMoneyValidator;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.runtime.ObjectMethods;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -96,7 +84,7 @@ class TransferControllerTest {
     @Test
     @WithMockUser(authorities = "MONEY_TRANSFER")
     public void getConfirmTransferPage_shouldReturnTransferPage_whenIncorrectData() throws Exception {
-        final TransferMoneyDTO content = TransferMoneyDTO.builder()
+        final TransferMoneyDto content = TransferMoneyDto.builder()
                 .toCardNumber(toCard.getCardNumber())
                 .amount(10000)
                 .fromCardEntity(fromCard).build();
@@ -114,7 +102,7 @@ class TransferControllerTest {
     @WithMockUser(authorities = "MONEY_TRANSFER")
     public void getConfirmTransferPage_shouldReturnConfirmTransferPage_whenCorrectData() throws Exception {
         when(cardService.checkCorrectnessCardNumber(any())).thenReturn(true);
-        final TransferMoneyDTO content = TransferMoneyDTO.builder()
+        final TransferMoneyDto content = TransferMoneyDto.builder()
                 .toCardNumber(toCard.getCardNumber())
                 .amount(100)
                 .fromCardEntity(fromCard).build();
@@ -132,7 +120,7 @@ class TransferControllerTest {
     @Test
     @WithMockUser(authorities = "MONEY_TRANSFER")
     public void transferMoney_shouldRedirect() throws Exception {
-        TransferMoneyDTO transferMoneyDTO = TransferMoneyDTO.builder()
+        TransferMoneyDto transferMoneyDTO = TransferMoneyDto.builder()
                 .toCardNumber(toCard.getCardNumber())
                 .amount(100)
                 .fromCardEntity(fromCard)

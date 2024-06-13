@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface TransactionHistoryRepository extends JpaRepository<TransactionHistoryEntity, TransactionHistoryID> {
     List<TransactionHistoryEntity> findAllByCardAndTimestampBetween(CardEntity card, Timestamp from,Timestamp to);

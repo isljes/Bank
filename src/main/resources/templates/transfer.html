@@ -19,7 +19,7 @@
                         <div class="d-flex align-items-center justify-content-center">
                             <h3 class="text-white mb-3" th:utext="#{transfer.form.title}">Transfer</h3>
                         </div>
-                        <form th:action="@{by-card-number/confirm}" method="get" th:object="${transferMoneyDTO}">
+                        <form th:action="@{/transfer/by-card-number/confirm}" method="get" th:object="${transferMoneyDTO}">
                             <div class="form-floating mb-3">
                                 <div class="mb-3">
                                     <h6><label for="card-number-input" class="form-label"
@@ -56,8 +56,8 @@
                                 <div class="mb-3">
                                     <h6 th:utext="#{transfer.form.select.card}">Select card</h6>
                                     <div class="input-group">
-                                        <select class="form-select bg-dark text-white" th:field="*{fromCardEntity}">
-                                            <option th:each="currcard:${selectCard}" th:value="${currcard.id}"
+                                        <select class="form-select bg-dark text-white" th:field="*{fromCardNumber}">
+                                            <option th:each="currcard:${selectCard}" th:value="${currcard.cardNumber}"
                                                     th:utext="
                                                 ${currcard.paymentSystem+' '+currcard.cardNumber.substring(12)}">
                                             </option>
@@ -67,7 +67,7 @@
                                 <div class="text-danger mb-1">
                                     <p>
                                         <th:block th:if="${#fields.hasErrors()}">
-                                            <div th:errorclass="invalid-input" th:errors="*{fromCardEntity}"></div>
+                                            <div th:errorclass="invalid-input" th:errors="*{fromCardNumber}"></div>
                                         </th:block>
                                     </p>
                                 </div>

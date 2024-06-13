@@ -1,6 +1,7 @@
 package com.example.bank.dto;
 
-import com.example.bank.model.CardEntity;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +13,9 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransferMoneyDTO implements Serializable {
+public class TransferMoneyDto implements Serializable {
     private String toCardNumber;
     private long amount;
-    private CardEntity fromCardEntity;
+    private String fromCardNumber;
 }
 
